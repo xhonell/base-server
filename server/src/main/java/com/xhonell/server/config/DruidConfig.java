@@ -1,0 +1,25 @@
+package com.xhonell.server.config;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
+
+/**
+ * program: BaseServer
+ * ClassName DruidConfig
+ * description:
+ * author: xhonell
+ * create: 2025年10月15日22时41分
+ * Version 1.0
+ **/
+@Configuration
+public class DruidConfig {
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
+    public DataSource druidDataSource() {
+        return new DruidDataSource();
+    }
+}
