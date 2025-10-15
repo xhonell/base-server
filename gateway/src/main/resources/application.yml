@@ -1,0 +1,33 @@
+# 启动端口
+server:
+  port: 8801
+
+# 启动名称
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  profiles:
+    active: DEV
+
+  # nacos服务
+  config:
+    import:
+      - optional:nacos:GATEWAY-SERVICE-${spring.profiles.active}?group=COMMON_GROUP
+
+  cloud:
+    nacos:
+      # 注册中心
+      discovery:
+        server-addr: 124.223.100.39:8848
+        username: "nacos"
+        password: "hH1234568."
+
+      #配置中心
+      config:
+        server-addr: 124.223.100.39:8848
+        group: COMMON_GROUP
+        file-extension: yaml
+        refresh-enabled: true
+        namespace: ""
+        username: "nacos"
+        password: "hH1234568."

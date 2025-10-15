@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: COMMON-SERVICE
+  profiles:
+    active: DEV
+
+  cloud:
+    nacos:
+      config:
+        server-addr: 124.223.100.39:8080
+        group: COMMON_GROUP
+        file-extension: yaml
+        refresh-enabled: true
