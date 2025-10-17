@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+
+    <Properties>
+        <!-- 日志路径，可用系统环境变量或默认 logs 文件夹 -->
+        <Property name="LOG_HOME">${sys:LOG_HOME:-logs}</Property>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- 控制台输出 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <!-- 滚动文件日志 -->
+        <RollingFile name="FileAppender"
+                     fileName="${LOG_HOME}/app.log"
+                     filePattern="${LOG_HOME}/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <!-- 每天生成一个新日志文件 -->
+                <TimeBasedTriggeringPolicy />
+                <!-- 文件大小超过 10MB 滚动 -->
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <!-- 保留最近 30 个日志文件 -->
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- 指定包名日志级别，其他包默认 info -->
+        <Logger name="com.xhonell" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+
+        <!-- Spring Boot 框架日志 -->
+        <Logger name="org.springframework" level="info"/>
+        <Logger name="org.hibernate" level="warn"/>
+
+        <!-- 根日志 -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
