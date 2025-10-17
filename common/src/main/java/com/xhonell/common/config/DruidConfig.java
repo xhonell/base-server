@@ -1,4 +1,4 @@
-package com.xhonell.server.config;
+package com.xhonell.common.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;

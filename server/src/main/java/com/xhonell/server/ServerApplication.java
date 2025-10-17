@@ -13,7 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * create: 2025年08月17日22时01分
  * Version 1.0
  **/
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.xhonell.server", "com.xhonell.common"})
 @EnableDiscoveryClient
 @MapperScan("com.xhonell.server.mapper")
 public class ServerApplication {

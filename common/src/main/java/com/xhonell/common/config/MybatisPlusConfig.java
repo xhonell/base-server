@@ -1,4 +1,4 @@
-package com.xhonell.server.config;
+package com.xhonell.common.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;

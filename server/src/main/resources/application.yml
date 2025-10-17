@@ -15,11 +15,16 @@ spring:
 
   cloud:
     nacos:
+      # 注册中心
       discovery:
         server-addr: 124.223.100.39:8848
         username: "nacos"
         password: "hH1234568."
+
+      #配置中心
       config:
+        import-check:
+          enabled: false
         server-addr: 124.223.100.39:8848
         group: COMMON_GROUP
         file-extension: yaml
