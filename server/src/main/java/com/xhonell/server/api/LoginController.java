@@ -1,6 +1,8 @@
 package com.xhonell.server.api;
 
+import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.utils.EmailUtil;
+import com.xhonell.server.service.impl.LoginServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,20 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final EmailUtil emailUtil;
+    private final LoginServiceImpl loginService;
 
     /**
      * 发送注册验证码
+     *
      * @param email 收件人邮箱
      * @return 提示信息
      */
     @PostMapping("/sendRegisterCode")
-    public String sendRegisterCode(@RequestParam String email) {
-        try {
-            emailUtil.sendRegisterCode(email);
-            return "验证码已发送到邮箱：" + email;
-        } catch (Exception e) {
-            return "发送失败：" + e.getMessage();
-        }
+    public Result<Void> sendRegisterCode(@RequestParam String email) {
+        loginService.sendRegisterCode(email);
+        return Result.success();
     }
 }

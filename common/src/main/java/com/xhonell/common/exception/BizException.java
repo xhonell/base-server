@@ -1,11 +1,8 @@
-package com.xhonell.common;
+package com.xhonell.common.exception;
 
 import com.xhonell.common.enums.common.SystemErrorEnum;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
 import java.io.Serial;
 

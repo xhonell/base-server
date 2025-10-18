@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 /**
  * program: BaseServer
  * ClassName User
@@ -36,10 +38,10 @@ public class User {
     private String salt;
 
     @TableField("create_time")
-    private Long createTime;
+    private LocalDateTime createTime;
 
     @TableField("update_time")
-    private Long updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 角色（1 普通用户 2 教师 3 系统管理员）

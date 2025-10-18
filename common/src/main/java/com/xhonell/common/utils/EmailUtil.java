@@ -1,14 +1,13 @@
 package com.xhonell.common.utils;
 
-import com.xhonell.common.BizException;
+import com.xhonell.common.exception.BizException;
+import com.xhonell.common.properties.CosProperties;
 import com.xhonell.common.properties.EmailProperties;
-import jakarta.annotation.Resource;
+import com.xhonell.common.properties.RedisPrefixProperties;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,7 +16,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.EmptyStackException;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -38,15 +37,14 @@ public class EmailUtil {
 
     private final EmailProperties emailProperties;
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisUtil redisUtil;
 
     // 验证码有效期，单位分钟
     private static final long CODE_EXPIRE_MINUTES = 5;
 
-    private static final String REGISTER_CODE_KEY = "REGISTER_CODE:";
 
     // 注册邮件主题
-    private static final String REGISTER_SUBJECT = "注册验证码";
+    private static final String REGISTER_SUBJECT = "龙腾华夏·注册验证码";
 
     /**
      * 给指定邮箱发送注册验证码，一步完成
@@ -55,7 +53,8 @@ public class EmailUtil {
      */
     @Async
     public void sendRegisterCode(String email) {
-        String redisKey = REGISTER_CODE_KEY + email;
+        AssertUtil.isTrue(!redisUtil.hasKey(String.format(RedisPrefixProperties.EMAIL_REGISTER_CODE_PREFIX, email)), "请稍等一会吧~操作频繁");;
+
         String code = generateCode();
 
         try {
@@ -70,18 +69,13 @@ public class EmailUtil {
 
             mailSender.send(message);
 
+
             // 保存验证码到 Redis
-            redisTemplate.opsForValue().set(redisKey, code, Duration.ofMinutes(CODE_EXPIRE_MINUTES));
+            redisUtil.set(String.format(RedisPrefixProperties.EMAIL_REGISTER_CODE_PREFIX, email),  code, RedisPrefixProperties.EXPIRE_TIME_SHORT);
 
             log.info("验证码已发送到 {}，验证码为 {}", email, code);
 
-        } catch (MessagingException e) {
-            log.error("邮件构建失败：{}", e.getMessage(), e);
-            throw new BizException("邮件构建异常");
-        } catch (MailAuthenticationException e) {
-            log.error("邮件认证失败，请检查 SMTP 授权码：{}", e.getMessage(), e);
-            throw new BizException("邮件认证失败");
-        } catch (Exception e) {
+        }  catch (Exception e) {
             log.error("邮件发送失败：{}", e.getMessage(), e);
             throw new BizException("邮件发送异常");
         }
@@ -95,11 +89,10 @@ public class EmailUtil {
      * @return true 验证成功，false 验证失败
      */
     public boolean verifyRegisterCode(String email, String code) {
-        String redisKey = "REGISTER_CODE:" + email;
-        String cacheCode = redisTemplate.opsForValue().get(redisKey);
-        if (cacheCode == null) return false;
+        String cacheCode = redisUtil.get(String.format(RedisPrefixProperties.EMAIL_REGISTER_CODE_PREFIX, email));
+        if (Objects.isNull(cacheCode)) return false;
         boolean result = cacheCode.equals(code);
-        if (result) redisTemplate.delete(redisKey);
+        if (result) redisUtil.del(String.format(RedisPrefixProperties.EMAIL_REGISTER_CODE_PREFIX, email));
         return result;
     }
 
@@ -142,8 +135,11 @@ public class EmailUtil {
                                                 <tr>
                                                     <td style="padding: 40px 40px 20px 40px;">
                                                         <h2 style="color: #c8102e; font-size: 24px; margin: 0 0 20px 0; letter-spacing: 2px; font-weight: bold;">尊敬的用户，您好！</h2>
-                                                        <p style="color: #333; font-size: 16px; line-height: 1.8; margin: 0 0 30px 0; letter-spacing: 1px;">感谢您使用<span style="color: #c8102e; font-weight: bold;">青少年爱国教育平台</span>。您正在进行邮箱验证操作，请使用以下验证码完成验证：</p>
+                                                        <p style="color: #333; font-size: 16px; line-height: 1.8; margin: 0 0 30px 0; letter-spacing: 1px;">感谢您使用<span style="color: #c8102e; font-weight: bold;"> 
+                                                        <a href="https://patriotic.xhongwong.cn/#/register" target="_blank" style="color: #c8102e; font-weight: bold; text-decoration: underline;">青少年爱国教育平台</a>
+                                                        </span>。您正在进行邮箱验证操作，请使用以下验证码完成验证：</p>
                 
+                                                        
                                                         <!-- 验证码容器 -->
                                                         <table cellpadding="0" cellspacing="0" border="0" width="100%%">
                                                             <tr>

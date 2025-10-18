@@ -1,6 +1,8 @@
 package com.xhonell.common.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,8 @@ import javax.sql.DataSource;
  * Version 1.0
  **/
 @Configuration
+@Getter
+@Setter
 public class DruidConfig {
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.druid")

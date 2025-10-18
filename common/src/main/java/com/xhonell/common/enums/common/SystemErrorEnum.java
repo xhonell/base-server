@@ -15,7 +15,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SystemErrorEnum {
 
-    SYSTEM_ERROR(500, "系统异常");
+
+    SUCCESS(200, "操作成功"),
+    SYSTEM_ERROR(500, "系统异常"),
+    UPLOAD_FAILED(10001, "文件上传失败");
 
     private final Integer code;
     private final String message;
