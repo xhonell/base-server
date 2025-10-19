@@ -1,0 +1,34 @@
+# application.yml
+server:
+  port: 8803
+
+spring:
+  application:
+    name: ADMIN-SERVICE
+  profiles:
+    # 环境标识
+    active: DEV
+
+  config:
+    import:
+      - optional:nacos:COMMON-SERVICE-${spring.profiles.active}?group=COMMON_GROUP
+
+  cloud:
+    nacos:
+      # 注册中心
+      discovery:
+        server-addr: 124.223.100.39:8848
+        username: "nacos"
+        password: "hH1234568."
+
+      #配置中心
+      config:
+        import-check:
+          enabled: false
+        server-addr: 124.223.100.39:8848
+        group: COMMON_GROUP
+        file-extension: yaml
+        refresh-enabled: true
+        namespace: ""
+        username: "nacos"
+        password: "hH1234568."

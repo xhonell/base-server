@@ -34,6 +34,11 @@ public class RedisPrefixProperties {
     public static final String USER_TOKEN_PREFIX = "user:%s:";
 
     /**
+     * 签到
+     */
+    public static final String SIGN_IN_PREFIX = "sign:in:%s";
+
+    /**
      * 邮箱注册验证码前缀
      */
     public static final String EMAIL_REGISTER_CODE_PREFIX = "email:register:code:%s:";

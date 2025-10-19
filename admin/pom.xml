@@ -9,11 +9,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <!--服务模块-->
-    <artifactId>server</artifactId>
-
-    <!--打包类型-->
     <packaging>jar</packaging>
+
+    <artifactId>admin</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -23,8 +21,8 @@
     </properties>
 
     <dependencies>
+        <!--commmon-->
         <dependency>
-            <!--common-->
             <groupId>com.xhonell</groupId>
             <artifactId>common</artifactId>
             <version>${common.version}</version>
@@ -39,11 +37,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.xhonell.server.ServerApplication</mainClass>
+                    <mainClass>com.xhonell.gateway.GateWayApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
-
     </build>
+
 
 </project>

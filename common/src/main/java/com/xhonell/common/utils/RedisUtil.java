@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -109,6 +110,36 @@ public class RedisUtil {
 
     public boolean hasKey(String key) {
         return redisTemplate.hasKey(key);
+    }
+
+    /**
+     * 设置位
+     * @param key Redis key
+     * @param offset 位偏移量
+     * @param value true/false
+     */
+    public void setBit(String key, long offset, boolean value) {
+        redisTemplate.opsForValue().setBit(key, offset, value);
+    }
+
+    /**
+     * 获取位
+     * @param key Redis key
+     * @param offset 位偏移量
+     * @return true/false
+     */
+    public boolean getBit(String key, long offset) {
+        Boolean bit = redisTemplate.opsForValue().getBit(key, offset);
+        return Boolean.TRUE.equals(bit);
+    }
+
+    /**
+     * 获取指定 key 的 1 的个数
+     * @param key Redis key
+     * @return 位为 1 的数量
+     */
+    public Long bitCount(String key) {
+        return redisTemplate.execute((RedisCallback<Long>) (connection) -> connection.bitCount(key.getBytes()));
     }
 
 }
