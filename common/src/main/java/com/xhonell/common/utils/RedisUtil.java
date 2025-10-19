@@ -27,9 +27,9 @@ public class RedisUtil {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public RedisUtil(RedisTemplate<String, String> redisTemplate) {
+    public RedisUtil(RedisTemplate<String, String> redisTemplate, ObjectMapper objectMapper) {
         this.redisTemplate = redisTemplate;
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper;
     }
 
     // ==================== String操作 ====================
@@ -48,7 +48,7 @@ public class RedisUtil {
             String json = objectMapper.writeValueAsString(value);
             redisTemplate.opsForValue().set(key, json, timeout, TimeUnit.SECONDS);
         } catch (JsonProcessingException e) {
-            log.error("设置Redis缓存失败,key:{}", key);
+            log.error("设置Redis缓存失败,key:{}", key, e);
         }
     }
 

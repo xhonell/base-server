@@ -1,6 +1,7 @@
 package com.xhonell.server.service.impl;
 
 import com.xhonell.common.domain.entity.File;
+import com.xhonell.common.domain.response.UploadFileResponse;
 import com.xhonell.common.enums.common.SystemErrorEnum;
 import com.xhonell.common.exception.BizException;
 import com.xhonell.common.utils.AssertUtil;
@@ -27,6 +28,7 @@ public class UploadServiceImpl implements UploadService {
     private final FileService fileService;
 
     private final CosUploadUtil cosUploadUtil;
+
     /**
      * 上传文件
      *
@@ -34,12 +36,12 @@ public class UploadServiceImpl implements UploadService {
      * @return
      */
     @Override
-    public String upload(MultipartFile file) {
+    public UploadFileResponse upload(MultipartFile file) {
         AssertUtil.isTrue(Objects.nonNull(file), "请勿上传空文件");
         try {
             File localFile = cosUploadUtil.uploadAuto(file, file.getInputStream());
             fileService.save(localFile);
-            return localFile.getFilePathUrl();
+            return new UploadFileResponse(localFile.getId(), localFile.getFilePathUrl());
         } catch (Exception e) {
             throw new BizException(SystemErrorEnum.UPLOAD_FAILED);
         }

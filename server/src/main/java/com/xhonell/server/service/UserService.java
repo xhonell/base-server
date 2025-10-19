@@ -2,6 +2,7 @@ package com.xhonell.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xhonell.common.domain.entity.User;
+import jakarta.validation.constraints.Email;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,4 +14,5 @@ import org.springframework.stereotype.Service;
  * Version 1.0
  **/
 public interface UserService extends IService<User> {
+    User getByEmail(@Email(message = "邮箱格式不正确") String email, Integer role);
 }

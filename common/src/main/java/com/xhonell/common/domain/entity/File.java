@@ -31,7 +31,7 @@ public class File {
 
     private String fileUrl;
 
-    private LocalDateTime creatTime;
+    private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
 

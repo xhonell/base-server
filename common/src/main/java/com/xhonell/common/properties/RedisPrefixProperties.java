@@ -18,6 +18,11 @@ public class RedisPrefixProperties {
      */
     public static final Integer EXPIRE_TIME_WEEK = 60 * 60 * 24 * 7;
 
+    /***
+     * 一天过期时间
+     */
+    public static final Integer EXPIRE_TIME_DAY = 60 * 60 * 24 ;
+
     /**
      * 短过期时间
      */
@@ -32,4 +37,9 @@ public class RedisPrefixProperties {
      * 邮箱注册验证码前缀
      */
     public static final String EMAIL_REGISTER_CODE_PREFIX = "email:register:code:%s:";
+
+    /**
+     * 登录信息前缀
+     */
+    public static final String LOGIN_INFO = "login:info:%s:";
 }

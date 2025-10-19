@@ -1,8 +1,10 @@
 package com.xhonell.server.api;
 
 import com.qcloud.cos.model.UploadResult;
+import com.xhonell.common.annotation.NoAuth;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.entity.File;
+import com.xhonell.common.domain.response.UploadFileResponse;
 import com.xhonell.common.utils.CosUploadUtil;
 import com.xhonell.server.service.UploadService;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -35,8 +37,9 @@ public class UploadController {
      * @return
      */
     @PostMapping("/upload")
-    public Result<String> upload(@RequestParam("file") MultipartFile file) {
-        String localFileUrl = uploadService.upload(file);
+    @NoAuth
+    public Result<UploadFileResponse> upload(@RequestParam("file") MultipartFile file) {
+        UploadFileResponse localFileUrl = uploadService.upload(file);
         return Result.success(localFileUrl);
     }
 }

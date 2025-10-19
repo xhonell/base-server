@@ -1,21 +1,20 @@
-package com.xhonell.common.domain.entity;
+package com.xhonell.common.domain.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
 /**
  * program: BaseServer
- * ClassName User
+ * ClassName RedisUser
  * description:
  * author: xhonell
- * create: 2025年10月17日23时46分
+ * create: 2025年10月19日16时09分
  * Version 1.0
  **/
 @Data
@@ -23,19 +22,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_user")
-public class User {
-
-    @TableId(type = IdType.AUTO)
+public class RedisUser {
     private Long id;
 
     private String username;
 
-    private String password;
-
     private String email;
-
-    private String salt;
 
     @TableField("create_time")
     private LocalDateTime createTime;
@@ -53,4 +45,6 @@ public class User {
     private String phone;
 
     private Boolean status;
+
+    private String avatarUrl;
 }
