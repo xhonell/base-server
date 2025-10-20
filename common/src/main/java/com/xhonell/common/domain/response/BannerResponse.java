@@ -1,23 +1,21 @@
-package com.xhonell.common.domain.entity;
+package com.xhonell.common.domain.response;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * program: BaseServer
- * ClassName Banner
+ * ClassName BannerResponse
  * description:
  * author: xhonell
- * create: 2025年10月19日22时42分
+ * create: 2025年10月20日22时31分
  * Version 1.0
  **/
 @Data
@@ -25,39 +23,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_banner")
-public class Banner implements Serializable {
-
+public class BannerResponse implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 文件主键
-     */
     private Long fileId;
 
-    /**
-     * 标题
-     */
+    private String filePathUrl;
+
     private String title;
 
-    /**
-     * 状态（0 启用，1 禁用）
-     */
     private Boolean status;
 
-    /**
-     * 创建时间
-     */
     private LocalDateTime createTime;
 
-    /**
-     * 修改时间
-     */
     private LocalDateTime updateTime;
 }

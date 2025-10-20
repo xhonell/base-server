@@ -3,6 +3,8 @@ package com.xhonell.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xhonell.common.domain.entity.User;
 
+import java.util.List;
+
 /**
  * program: BaseServer
  * ClassName UserMapper

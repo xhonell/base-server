@@ -2,6 +2,7 @@ package com.xhonell.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xhonell.common.domain.entity.Banner;
+import com.xhonell.common.domain.request.BannerPageRequest;
 
 /**
  * program: BaseServer

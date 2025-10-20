@@ -38,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
     public String login(LoginRequest request) {
         User user = userService.getByEmail(request.getEmail(), RoleEnum.ADMIN.getCode());
         AssertUtil.isTrue(Objects.nonNull(user), "用户不存在");
-        AssertUtil.isTrue(Objects.equals(user.getStatus(), Boolean.FALSE), "用户被禁用, 请联系管理员");
+        AssertUtil.isTrue(Objects.equals(user.getStatus(), Boolean.TRUE), "用户被禁用, 请联系管理员");
         AssertUtil.isTrue(PasswordUtil.verify(request.getPassword(), user.getSalt(), user.getPassword()), "密码错误");
         String token = RandomUtil.randomLetter(20);
         String loginKey = String.format(RedisPrefixProperties.LOGIN_INFO, token);

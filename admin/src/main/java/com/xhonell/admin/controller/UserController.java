@@ -1,16 +1,15 @@
 
 package com.xhonell.admin.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.xhonell.admin.service.UserService;
 import com.xhonell.common.domain.dto.RedisUser;
 import com.xhonell.common.domain.dto.Result;
-import lombok.Getter;
+import com.xhonell.common.domain.request.UserPageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * program: BaseServer
@@ -26,8 +25,13 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+    /**
+     * 获取用户列表
+     * @param request
+     * @return
+     */
     @GetMapping("/list")
-    public Result<List<RedisUser>> list() {
-        return Result.success(userService.selectList());
+    public Result<PageInfo<RedisUser>> list(UserPageRequest request) {
+        return Result.success(userService.selectList(request));
     }
 }

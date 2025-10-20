@@ -1,11 +1,11 @@
 package com.xhonell.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.xhonell.common.domain.dto.RedisUser;
 import com.xhonell.common.domain.entity.User;
+import com.xhonell.common.domain.request.UserPageRequest;
 import jakarta.validation.constraints.Email;
-
-import java.util.List;
 
 /**
  * program: BaseServer
@@ -18,5 +18,5 @@ import java.util.List;
 public interface UserService extends IService<User> {
     User getByEmail(@Email(message = "邮箱格式不正确") String email, Integer role);
 
-    List<RedisUser> selectList();
+    PageInfo<RedisUser> selectList(UserPageRequest request);
 }
