@@ -68,7 +68,8 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner> impleme
         }
         LambdaUpdateWrapper<Banner> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(Banner::getId, banner.getId());
-        updateWrapper.set(Banner::getTitle, banner.getTitle());
+        updateWrapper.set(Objects.nonNull(banner.getTitle()), Banner::getTitle, banner.getTitle());
+        updateWrapper.set(Objects.nonNull(banner.getStatus()), Banner::getStatus, banner.getStatus());
         update(updateWrapper);
     }
 

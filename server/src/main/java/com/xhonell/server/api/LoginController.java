@@ -5,12 +5,9 @@ import com.xhonell.common.domain.dto.RedisUser;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.request.LoginRequest;
 import com.xhonell.common.domain.request.UserRegisterRequest;
-import com.xhonell.common.utils.EmailUtil;
 import com.xhonell.common.utils.RedisUserUtil;
 import com.xhonell.server.service.LoginService;
-import com.xhonell.server.service.impl.LoginServiceImpl;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
