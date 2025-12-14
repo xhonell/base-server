@@ -47,4 +47,14 @@ public class RedisPrefixProperties {
      * 登录信息前缀
      */
     public static final String LOGIN_INFO = "login:info:%s:";
+
+    /**
+     * 权限
+     */
+    public static final String AUTH_PERMISSION_PREFIX = "auth.permission:%s:";
+
+    /**
+     * 角色
+     */
+    public static final String AUTH_ROLE_PREFIX = "auth.role:%s:";
 }

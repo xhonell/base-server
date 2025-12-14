@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 
 /**
  * program: BaseServer
- * ClassName Content
- * description:
+ * ClassName PeRolePermission
+ * description: 角色-权限关联表
  * author: xhonell
- * create: 2025年10月24日21时07分
+ * create: 2025年11月01日
  * Version 1.0
  **/
 @Data
@@ -26,8 +26,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_content")
-public class Content implements Serializable {
+@TableName("pe_role_permission")
+public class RolePermission implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -39,44 +39,14 @@ public class Content implements Serializable {
     private Long id;
 
     /**
-     * 标题
+     * 角色ID
      */
-    private String title;
+    private Long roleId;
 
     /**
-     * 内容类型（1=文章，2=视频）
+     * 权限ID
      */
-    private Byte type;
-
-    /**
-     * 内容简介
-     */
-    private String description;
-
-    /**
-     * 文件主键（若为视频则存储视频ID）
-     */
-    private Long fileId;
-
-    /**
-     * 难度等级ID
-     */
-    private Long difficultyId;
-
-    /**
-     * 标签ID
-     */
-    private Long tagId;
-
-    /**
-     * 政治面貌ID
-     */
-    private Long politicId;
-
-    /**
-     * 状态（1 启用，0 禁用）
-     */
-    private Byte status;
+    private Long permissionId;
 
     /**
      * 创建时间

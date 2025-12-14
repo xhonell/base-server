@@ -1,5 +1,6 @@
 package com.xhonell.admin.service.impl;
 
+import com.alibaba.nacos.shaded.com.google.common.collect.Lists;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageInfo;
@@ -14,8 +15,11 @@ import com.xhonell.common.enums.user.RoleEnum;
 import com.xhonell.common.utils.AssertUtil;
 import com.xhonell.common.utils.ListUtil;
 import com.xhonell.common.utils.PageUtils;
+import com.xhonell.common.utils.RedisUserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -50,6 +54,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         PageUtils.startPage(request.getPage(), request.getPageSize());
         List<User> users = selectListBy(request);
         List<Long> fileIds = users.stream().map(User::getAvatarId).distinct().toList();
+        if (CollectionUtils.isEmpty(fileIds)) {
+            return PageUtils.toPageInfo(Lists.newArrayList());
+        }
         List<File> files = fileService.listByIds(fileIds);
         Map<Long, String> fileMap = ListUtil.toMap(files, File::getId, File::getFilePathUrl);
         List<RedisUser> redisUsers = ListUtil.toList(users, RedisUser.class);
@@ -79,8 +86,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     public List<User> selectListBy(UserPageRequest request) {
+        RedisUser redisUser = RedisUserUtil.get();
+        request.setRole(redisUser.getSupperAdmin() ? request.getRole() : RoleEnum.USER.getCode());
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getRole, RoleEnum.USER.getCode());
+        queryWrapper.eq(Objects.nonNull(request.getRole()), User::getRole, request.getRole());
+        queryWrapper.like(StringUtils.hasText(request.getEmail()), User::getEmail, request.getEmail());
+        queryWrapper.like(StringUtils.hasText(request.getUsername()), User::getUsername, request.getUsername());
+        queryWrapper.ne(User::getId, redisUser.getId());
         queryWrapper.orderByDesc(User::getId);
         return this.list(queryWrapper);
     }

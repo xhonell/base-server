@@ -1,8 +1,6 @@
 package com.xhonell.admin.service;
 
-import com.xhonell.common.annotation.NoAuth;
 import com.xhonell.common.domain.request.LoginRequest;
-import com.xhonell.common.domain.request.UserRegisterRequest;
 import jakarta.validation.Valid;
 
 /**
@@ -15,6 +13,5 @@ import jakarta.validation.Valid;
  **/
 public interface LoginService {
 
-    @NoAuth
     String login(@Valid LoginRequest request);
 }

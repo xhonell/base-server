@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xhonell.admin.mapper.RolePermissionMapper">
+    <select id="selectPermissionByRoleIds" resultType="com.xhonell.common.domain.entity.Permission" parameterType="java.util.List">
+        SELECT
+        p.*
+        FROM
+        pe_role_permission rp
+        JOIN pe_permission p ON rp.permission_id = p.id
+        WHERE
+        p.`status` = 1
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            AND rp.role_id IN
+            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+        ORDER BY p.sort DESC
+    </select>
+
+    <select id="selectPermissionByRoleId" resultType="com.xhonell.common.domain.entity.Permission">
+        SELECT
+        p.*
+        FROM
+        pe_role_permission rp
+        JOIN pe_permission p ON rp.permission_id = p.id
+        WHERE
+        p.`status` = 1
+        <if test="roleIds != null">
+            AND rp.role_id = #{roleId}
+        </if>
+        ORDER BY p.sort DESC
+    </select>
+</mapper>

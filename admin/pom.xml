@@ -27,7 +27,6 @@
             <artifactId>common</artifactId>
             <version>${common.version}</version>
         </dependency>
-
     </dependencies>
 
     <!--打包-->
@@ -37,7 +36,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.xhonell.gateway.GateWayApplication</mainClass>
+                    <mainClass>com.xhonell.admin.AdminApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,8 +1,7 @@
-package com.xhonell.common.domain.entity;
+package com.xhonell.common.domain.request;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,13 +11,14 @@ import lombok.experimental.Accessors;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * program: BaseServer
- * ClassName Politic
+ * ClassName RoleSaveRequest
  * description:
  * author: xhonell
- * create: 2025年10月24日21时08分
+ * create: 2025年11月02日23时36分
  * Version 1.0
  **/
 @Data
@@ -26,8 +26,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_politic")
-public class Politic implements Serializable {
+public class RoleSaveRequest implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -35,31 +34,25 @@ public class Politic implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 政治面貌名称
+     * 角色名称
      */
     private String name;
 
     /**
-     * 说明
+     * 角色描述
      */
     private String description;
 
     /**
      * 状态（1 启用，0 禁用）
      */
-    private Byte status;
+    private Boolean status;
 
     /**
-     * 创建时间
+     * 权限编号
      */
-    private LocalDateTime createTime;
-
-    /**
-     * 修改时间
-     */
-    private LocalDateTime updateTime;
+    private List<Long> permissionIds;
 }

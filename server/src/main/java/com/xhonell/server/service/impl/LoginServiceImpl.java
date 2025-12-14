@@ -8,6 +8,7 @@ import com.xhonell.common.domain.entity.UserInfo;
 import com.xhonell.common.domain.request.LoginRequest;
 import com.xhonell.common.domain.request.UserRegisterRequest;
 import com.xhonell.common.enums.user.RoleEnum;
+import com.xhonell.common.properties.ConfigProperties;
 import com.xhonell.common.properties.RedisPrefixProperties;
 import com.xhonell.common.utils.*;
 import com.xhonell.server.service.LoginService;
@@ -47,6 +48,8 @@ public class LoginServiceImpl implements LoginService {
 
     private final UserInfoService userInfoService;
 
+    private final ConfigProperties configProperties;
+
     public void sendRegisterCode(String email) {
         AssertUtil.isTrue(RegexUtil.isEmail(email), "邮箱不可用");
         emailUtil.sendRegisterCode(email);
@@ -61,6 +64,9 @@ public class LoginServiceImpl implements LoginService {
         BeanUtils.copyProperties(request, user);
         String salt = PasswordUtil.generateSalt();
         String encryptPassword = PasswordUtil.encrypt(user.getPassword(), salt);
+        if (Objects.isNull(request.getAvatarId())) {
+            user.setAvatarId(configProperties.getAvatarId());
+        }
         user.setSalt(salt);
         user.setPassword(encryptPassword);
         userService.save(user);

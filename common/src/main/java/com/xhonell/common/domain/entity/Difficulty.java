@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -28,6 +29,7 @@ import java.time.LocalDateTime;
 @TableName("pe_difficulty")
 public class Difficulty implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -50,6 +52,11 @@ public class Difficulty implements Serializable {
      * 对应积分
      */
     private Integer score;
+
+    /**
+     * 星级
+     */
+    private Integer starts;
 
     /**
      * 状态（1 启用，0 禁用）

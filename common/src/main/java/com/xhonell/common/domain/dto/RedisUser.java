@@ -2,12 +2,14 @@ package com.xhonell.common.domain.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.xhonell.common.domain.entity.Permission;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * program: BaseServer
@@ -47,4 +49,19 @@ public class RedisUser {
     private Boolean status;
 
     private String avatarUrl;
+
+    /**
+     * 超级管理员标识
+     */
+    private Boolean supperAdmin;
+
+    /**
+     * 角色列表
+     */
+    private List<Long> roleIds;
+
+    /**
+     * 权限列表 所有角色统合
+     */
+    private List<Permission> permissionList;
 }

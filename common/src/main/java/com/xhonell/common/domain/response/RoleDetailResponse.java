@@ -1,8 +1,7 @@
-package com.xhonell.common.domain.entity;
+package com.xhonell.common.domain.response;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,13 +11,14 @@ import lombok.experimental.Accessors;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * program: BaseServer
- * ClassName Content
+ * ClassName RoleDetailResponse
  * description:
  * author: xhonell
- * create: 2025年10月24日21时07分
+ * create: 2025年11月03日00时22分
  * Version 1.0
  **/
 @Data
@@ -26,57 +26,29 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_content")
-public class Content implements Serializable {
-
+public class RoleDetailResponse implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 标题
+     * 角色名称
      */
-    private String title;
+    private String name;
 
     /**
-     * 内容类型（1=文章，2=视频）
-     */
-    private Byte type;
-
-    /**
-     * 内容简介
+     * 角色描述
      */
     private String description;
 
     /**
-     * 文件主键（若为视频则存储视频ID）
-     */
-    private Long fileId;
-
-    /**
-     * 难度等级ID
-     */
-    private Long difficultyId;
-
-    /**
-     * 标签ID
-     */
-    private Long tagId;
-
-    /**
-     * 政治面貌ID
-     */
-    private Long politicId;
-
-    /**
      * 状态（1 启用，0 禁用）
      */
-    private Byte status;
+    private Boolean status;
 
     /**
      * 创建时间
@@ -84,7 +56,12 @@ public class Content implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     private LocalDateTime updateTime;
+
+    /**
+     * 子权限
+     */
+    private List<PermissionTreeResponse> permissions;
 }

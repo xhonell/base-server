@@ -3,6 +3,7 @@ package com.xhonell.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xhonell.admin.service.UserService;
+import com.xhonell.common.annotation.RequirePermission;
 import com.xhonell.common.domain.dto.RedisUser;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.request.UserPageRequest;
@@ -27,10 +28,11 @@ public class UserController {
 
     /**
      * 获取用户列表
-     * @param request
-     * @return
+     * @param request 请求体
+     * @return 响应体
      */
     @GetMapping("/list")
+    @RequirePermission("admin:user:list")
     public Result<PageInfo<RedisUser>> list(UserPageRequest request) {
         return Result.success(userService.selectList(request));
     }

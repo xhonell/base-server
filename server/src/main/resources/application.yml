@@ -12,6 +12,7 @@ spring:
   config:
     import:
       - optional:nacos:COMMON-SERVICE-${spring.profiles.active}?group=COMMON_GROUP
+      - optional:nacos:CONFIG-SERVICE-${spring.profiles.active}?group=COMMON_GROUP
 
   cloud:
     nacos:

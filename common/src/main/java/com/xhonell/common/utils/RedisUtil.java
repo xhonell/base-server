@@ -1,6 +1,7 @@
 package com.xhonell.common.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,17 @@ public class RedisUtil {
         } catch (JsonProcessingException e) {
             log.error("获取Redis缓存失败,key:{}", key);
             return null;
+        }
+    }
+
+    // ✅ 新增：支持 List、Map 等带泛型的复杂对象
+    public <T> T get(String key, TypeReference<T> typeReference) {
+        String json = redisTemplate.opsForValue().get(key);
+        if (json == null) return null;
+        try {
+            return objectMapper.readValue(json, typeReference);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
