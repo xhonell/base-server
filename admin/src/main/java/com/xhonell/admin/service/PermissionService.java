@@ -28,4 +28,10 @@ public interface PermissionService extends IService<Permission> {
     List<PermissionTreeResponse> selectTreeByStatus();
 
     void deleteById(Long id);
+
+    /**
+     * 获取当前登录用户的权限树
+     * @return 权限树列表
+     */
+    List<PermissionTreeResponse> selectCurrentUserPermissionTree();
 }

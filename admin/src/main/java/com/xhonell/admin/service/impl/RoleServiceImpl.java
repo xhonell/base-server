@@ -89,7 +89,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         LambdaUpdateWrapper<Role> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(Role::getId, id);
         updateWrapper.set(Role::getStatus, status);
-        baseMapper.selectList(updateWrapper);
+        baseMapper.update(updateWrapper);
     }
 
     @Override

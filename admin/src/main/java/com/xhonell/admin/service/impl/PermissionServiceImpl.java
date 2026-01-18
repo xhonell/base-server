@@ -85,6 +85,22 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         removeMenuCache();
     }
 
+    @Override
+    public List<PermissionTreeResponse> selectCurrentUserPermissionTree() {
+        RedisUser redisUser = RedisUserUtil.get();
+        List<Permission> permissions = redisUser.getPermissionList();
+        if (CollectionUtils.isEmpty(permissions)) {
+            return List.of();
+        }
+        List<PermissionTreeResponse> permissionTreeResponses = ListUtil.toList(permissions, PermissionTreeResponse.class);
+        return TreeBuilderUtil.buildTree(
+                permissionTreeResponses,
+                PermissionTreeResponse::getId,
+                PermissionTreeResponse::getParentId,
+                PermissionTreeResponse::setChildrenPermission
+        );
+    }
+
     private List<Permission> selectBy(PermissionPageRequest request) {
         LambdaQueryWrapper<Permission> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Permission::getParentId, request.getParentId());

@@ -66,4 +66,13 @@ public class PermissionController {
     public Result<List<PermissionTreeResponse>> list() {
         return Result.success( permissionService.selectTreeByStatus());
     }
+
+    /**
+     * 获取当前登录用户的权限树
+     * 用于前端菜单渲染和权限控制
+     */
+    @GetMapping("/current/tree")
+    public Result<List<PermissionTreeResponse>> currentUserPermissionTree() {
+        return Result.success(permissionService.selectCurrentUserPermissionTree());
+    }
 }
