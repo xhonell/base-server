@@ -5,11 +5,10 @@ import com.xhonell.admin.service.BannerService;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.entity.Banner;
 import com.xhonell.common.domain.request.BannerPageRequest;
+import com.xhonell.common.domain.request.UpdateStatusRequest;
 import com.xhonell.common.domain.response.BannerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * program: BaseServer
@@ -44,8 +43,8 @@ public class BannerController {
     }
 
     @PostMapping("/status/{id}")
-    public Result<String> status(@PathVariable Long id, @RequestBody Map<String, Object> body )  {
-        bannerService.updateStatus(id, (Boolean) body.get("status"));
+    public Result<String> status(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
+        bannerService.updateStatus(id, request.getStatus());
          return Result.success();
     }
 

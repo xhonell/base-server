@@ -8,10 +8,9 @@ import com.xhonell.common.domain.entity.AgeRange;
 import com.xhonell.common.domain.entity.Difficulty;
 import com.xhonell.common.domain.request.AgeRangePageRequest;
 import com.xhonell.common.domain.request.DifficultyPageRequest;
+import com.xhonell.common.domain.request.UpdateStatusRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * program: BaseServer
@@ -46,8 +45,8 @@ public class DifficultyController {
     }
 
     @PostMapping("/status/{id}")
-    public Result<String> status(@PathVariable Long id, @RequestBody Map<String, Object> body )  {
-        difficultyService.updateStatus(id, (Boolean) body.get("status"));
+    public Result<String> status(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
+        difficultyService.updateStatus(id, request.getStatus());
         return Result.success();
     }
 

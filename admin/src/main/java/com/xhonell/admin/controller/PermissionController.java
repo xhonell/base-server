@@ -5,12 +5,12 @@ import com.xhonell.common.annotation.RequirePermission;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.entity.Permission;
 import com.xhonell.common.domain.request.PermissionPageRequest;
+import com.xhonell.common.domain.request.UpdateStatusRequest;
 import com.xhonell.common.domain.response.PermissionTreeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * program: BaseServer
@@ -49,8 +49,8 @@ public class PermissionController {
 
     @PostMapping("/status/{id}")
     @RequirePermission("admin:permission:status")
-    public Result<String> status(@PathVariable Long id, @RequestBody Map<String, Object> body )  {
-        permissionService.updateStatus(id, (Boolean) body.get("status"));
+    public Result<String> status(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
+        permissionService.updateStatus(id, request.getStatus());
         return Result.success();
     }
 

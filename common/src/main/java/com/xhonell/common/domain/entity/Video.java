@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 
 /**
  * program: BaseServer
- * ClassName PeContent
- * description: 教育内容表
+ * ClassName PeVideo
+ * description: 教育视频表
  * author: xhonell
  * create: 2026年1月18日
  * Version 1.0
@@ -26,8 +26,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_content")
-public class PeContent implements Serializable {
+@TableName("pe_video")
+public class Video implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -39,44 +39,49 @@ public class PeContent implements Serializable {
     private Long id;
 
     /**
-     * 标题
+     * 内容ID（关联pe_content表）
      */
-    private String title;
+    private Long contentId;
 
     /**
-     * 内容类型（1=文章，2=视频）
+     * 视频时长（秒）
      */
-    private Byte type;
+    private Long duration;
 
     /**
-     * 内容简介
+     * 视频封面图ID
      */
-    private String description;
+    private Long coverId;
 
     /**
-     * 文件主键（若为视频则存储视频ID）
+     * 视频分辨率（如：1920x1080）
      */
-    private Long fileId;
+    private String resolution;
 
     /**
-     * 难度等级ID
+     * 视频格式（如：mp4, avi）
      */
-    private Long difficultyId;
+    private String format;
 
     /**
-     * 标签ID
+     * 视频大小（字节）
      */
-    private Long tagId;
+    private Long size;
 
     /**
-     * 政治面貌ID
+     * 播放次数
      */
-    private Long politicId;
+    private Integer playCount;
 
     /**
-     * 状态（1 启用，0 禁用）
+     * 点赞数
      */
-    private Byte status;
+    private Integer likeCount;
+
+    /**
+     * 收藏数
+     */
+    private Integer collectCount;
 
     /**
      * 创建时间

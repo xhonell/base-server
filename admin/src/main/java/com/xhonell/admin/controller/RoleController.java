@@ -7,11 +7,10 @@ import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.entity.Role;
 import com.xhonell.common.domain.request.RolePageRequest;
 import com.xhonell.common.domain.request.RoleSaveRequest;
+import com.xhonell.common.domain.request.UpdateStatusRequest;
 import com.xhonell.common.domain.response.RoleDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * program: BaseServer
@@ -51,8 +50,8 @@ public class RoleController {
 
     @PostMapping("/status/{id}")
     @RequirePermission("admin:role:status")
-    public Result<String> status(@PathVariable Long id, @RequestBody Map<String, Object> body )  {
-        roleService.updateStatus(id, (Boolean) body.get("status"));
+    public Result<String> status(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
+        roleService.updateStatus(id, request.getStatus());
         return Result.success();
     }
 

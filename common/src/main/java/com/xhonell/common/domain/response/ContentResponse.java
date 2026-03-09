@@ -1,24 +1,19 @@
-package com.xhonell.common.domain.entity;
+package com.xhonell.common.domain.response;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * program: BaseServer
- * ClassName Content
- * description:
+ * ClassName ContentResponse
+ * description: 内容响应类，用于返回内容相关信息及关联信息
  * author: xhonell
- * create: 2025年10月24日21时07分
+ * create: 2026年3月8日
  * Version 1.0
  **/
 @Data
@@ -26,16 +21,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_content")
-public class Content implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class ContentResponse {
 
     /**
-     * 主键
+     * 主键ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
@@ -54,6 +44,11 @@ public class Content implements Serializable {
     private Long categoryId;
 
     /**
+     * 分类名称
+     */
+    private String categoryName;
+
+    /**
      * 内容简介
      */
     private String description;
@@ -64,9 +59,19 @@ public class Content implements Serializable {
     private Long fileId;
 
     /**
+     * 文件名
+     */
+    private String fileName;
+
+    /**
      * 难度等级ID
      */
     private Long difficultyId;
+
+    /**
+     * 难度等级名称
+     */
+    private String difficultyName;
 
     /**
      * 标签ID
@@ -74,9 +79,19 @@ public class Content implements Serializable {
     private Long tagId;
 
     /**
+     * 标签名称
+     */
+    private String tagName;
+
+    /**
      * 政治面貌ID
      */
     private Long politicId;
+
+    /**
+     * 政治面貌名称
+     */
+    private String politicName;
 
     /**
      * 状态（1 启用，0 禁用）
@@ -92,4 +107,4 @@ public class Content implements Serializable {
      * 修改时间
      */
     private LocalDateTime updateTime;
-}
+}
