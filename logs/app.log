@@ -982,3 +982,288 @@ Caused by: java.net.SocketException: Connection reset
 2026-03-10 15:37:51.446 [http-nio-8803-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2026-03-10 15:37:51.452 [http-nio-8803-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 6 ms
 2026-03-10 15:37:53.888 [http-nio-8803-exec-1] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2026-03-10 16:13:11.001 [http-nio-8803-exec-6] ERROR com.xhonell.common.advice.GlobalExceptionHandler - 系统异常: 
+org.springframework.data.redis.RedisSystemException: Redis exception
+	at org.springframework.data.redis.connection.lettuce.LettuceExceptionConverter.convert(LettuceExceptionConverter.java:72) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.connection.lettuce.LettuceExceptionConverter.convert(LettuceExceptionConverter.java:41) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.PassThroughExceptionTranslationStrategy.translate(PassThroughExceptionTranslationStrategy.java:40) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.FallbackExceptionTranslationStrategy.translate(FallbackExceptionTranslationStrategy.java:38) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.convertLettuceAccessException(LettuceConnection.java:248) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.await(LettuceConnection.java:961) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.lambda$doInvoke$4(LettuceConnection.java:818) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.connection.lettuce.LettuceInvoker$Synchronizer.invoke(LettuceInvoker.java:665) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.connection.lettuce.LettuceInvoker.just(LettuceInvoker.java:94) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.connection.lettuce.LettuceStringCommands.get(LettuceStringCommands.java:52) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.connection.DefaultedRedisConnection.get(DefaultedRedisConnection.java:284) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.connection.DefaultStringRedisConnection.get(DefaultStringRedisConnection.java:392) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.core.DefaultValueOperations$1.inRedis(DefaultValueOperations.java:54) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.core.AbstractOperations$ValueDeserializingRedisCallback.doInRedis(AbstractOperations.java:61) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:406) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:373) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:97) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at org.springframework.data.redis.core.DefaultValueOperations.get(DefaultValueOperations.java:50) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	at com.xhonell.common.utils.RedisUtil.get(RedisUtil.java:58) ~[classes/:?]
+	at com.xhonell.admin.interceptor.AuthInterceptor.preHandle(AuthInterceptor.java:57) ~[classes/:?]
+	at org.springframework.web.servlet.HandlerExecutionChain.applyPreHandle(HandlerExecutionChain.java:146) ~[spring-webmvc-6.0.4.jar:6.0.4]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1075) ~[spring-webmvc-6.0.4.jar:6.0.4]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:973) ~[spring-webmvc-6.0.4.jar:6.0.4]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1011) ~[spring-webmvc-6.0.4.jar:6.0.4]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.0.4.jar:6.0.4]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:705) ~[tomcat-embed-core-10.1.5.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.0.4.jar:6.0.4]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:814) ~[tomcat-embed-core-10.1.5.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:223) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.0.4.jar:6.0.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.4.jar:6.0.4]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.0.4.jar:6.0.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.4.jar:6.0.4]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.0.4.jar:6.0.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.4.jar:6.0.4]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:185) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:158) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:177) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:119) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:400) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:859) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1734) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.5.jar:10.1.5]
+	at java.lang.Thread.run(Thread.java:840) ~[?:?]
+Caused by: io.lettuce.core.RedisException: java.net.SocketException: Connection reset
+	at io.lettuce.core.internal.Exceptions.bubble(Exceptions.java:83) ~[lettuce-core-6.2.2.RELEASE.jar:6.2.2.RELEASE]
+	at io.lettuce.core.internal.Futures.awaitOrCancel(Futures.java:250) ~[lettuce-core-6.2.2.RELEASE.jar:6.2.2.RELEASE]
+	at io.lettuce.core.LettuceFutures.awaitOrCancel(LettuceFutures.java:74) ~[lettuce-core-6.2.2.RELEASE.jar:6.2.2.RELEASE]
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.await(LettuceConnection.java:959) ~[spring-data-redis-3.0.1.jar:3.0.1]
+	... 55 more
+Caused by: java.net.SocketException: Connection reset
+	at sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:394) ~[?:?]
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:426) ~[?:?]
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:259) ~[netty-buffer-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1132) ~[netty-buffer-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:357) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:151) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:788) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997) ~[netty-common-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[netty-common-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[netty-common-4.1.87.Final.jar:4.1.87.Final]
+	... 1 more
+2026-03-10 16:13:11.081 [lettuce-eventExecutorLoop-1-1] INFO  io.lettuce.core.protocol.ConnectionWatchdog - Reconnecting, last destination was /124.223.100.39:6379
+2026-03-10 16:13:11.161 [lettuce-nioEventLoop-6-2] INFO  io.lettuce.core.protocol.ReconnectionHandler - Reconnected to 124.223.100.39/<unresolved>:6379
+2026-03-10 16:13:12.781 [http-nio-8803-exec-8] WARN  com.xhonell.common.advice.GlobalExceptionHandler - 业务异常: 用户未登录
+2026-03-10 16:13:21.869 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2026-03-10 16:13:21.869 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2026-03-10 16:13:21.870 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2026-03-10 16:13:21.871 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2026-03-10 16:13:22.938 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2026-03-10 16:13:22.980 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2026-03-10 16:13:22.988 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2026-03-10 16:13:23.170 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2026-03-10 16:13:26.987 [main] INFO  com.xhonell.admin.AdminApplication - Starting AdminApplication using Java 17.0.18 with PID 24861 (/Users/xhonell/Project/base-server/admin/target/classes started by xhonell in /Users/xhonell/Project/base-server)
+2026-03-10 16:13:26.990 [main] INFO  com.xhonell.admin.AdminApplication - The following 1 profile is active: "DEV"
+2026-03-10 16:13:27.004 [main] INFO  com.alibaba.cloud.nacos.configdata.NacosConfigDataLoader - [Nacos Config] Load config[dataId=CONFIG-SERVICE-DEV, group=COMMON_GROUP] success
+2026-03-10 16:13:27.004 [main] INFO  com.alibaba.cloud.nacos.configdata.NacosConfigDataLoader - [Nacos Config] Load config[dataId=COMMON-SERVICE-DEV, group=COMMON_GROUP] success
+2026-03-10 16:13:27.276 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-03-10 16:13:27.277 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-10 16:13:27.291 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2026-03-10 16:13:27.364 [main] INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=1a964d6a-9c28-32d7-ae2f-3bdde1e8ce91
+2026-03-10 16:13:27.571 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8803 (http)
+2026-03-10 16:13:27.575 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8803"]
+2026-03-10 16:13:27.575 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-10 16:13:27.575 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.5]
+2026-03-10 16:13:27.611 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-03-10 16:13:27.612 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 606 ms
+2026-03-10 16:13:28.014 [reactor-http-nio-6] ERROR org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler - [1e8d8a44-50]  500 Server Error for HTTP GET "/admin/recommend-config/list?page=1&pageSize=999"
+io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: /192.168.110.179:8803
+	Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: 
+Error has been observed at the following site(s):
+	*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ HTTP GET "/admin/recommend-config/list?page=1&pageSize=999" [ExceptionHandlingWebHandler]
+Original Stack Trace:
+Caused by: java.net.ConnectException: Connection refused
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:684) ~[?:?]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:946) ~[?:?]
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:337) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997) ~[netty-common-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[netty-common-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[netty-common-4.1.87.Final.jar:4.1.87.Final]
+	at java.lang.Thread.run(Thread.java:840) ~[?:?]
+2026-03-10 16:13:28.014 [reactor-http-nio-7] ERROR org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler - [d9678f46-51]  500 Server Error for HTTP GET "/admin/recommend-config/active"
+io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: /192.168.110.179:8803
+	Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: 
+Error has been observed at the following site(s):
+	*__checkpoint ⇢ org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]
+	*__checkpoint ⇢ HTTP GET "/admin/recommend-config/active" [ExceptionHandlingWebHandler]
+Original Stack Trace:
+Caused by: java.net.ConnectException: Connection refused
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:684) ~[?:?]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:946) ~[?:?]
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:337) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562) ~[netty-transport-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997) ~[netty-common-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[netty-common-4.1.87.Final.jar:4.1.87.Final]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[netty-common-4.1.87.Final.jar:4.1.87.Final]
+	at java.lang.Thread.run(Thread.java:840) ~[?:?]
+2026-03-10 16:13:28.353 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8803"]
+2026-03-10 16:13:28.357 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8803 (http) with context path ''
+2026-03-10 16:13:28.363 [main] INFO  com.alibaba.nacos.plugin.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2026-03-10 16:13:28.363 [main] INFO  com.alibaba.nacos.plugin.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2026-03-10 16:13:28.754 [main] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP ADMIN-SERVICE 192.168.110.179:8803 register finished
+2026-03-10 16:13:28.775 [main] INFO  com.xhonell.admin.AdminApplication - Started AdminApplication in 3.53 seconds (process running for 4.24)
+2026-03-10 16:13:28.786 [main] INFO  com.alibaba.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=COMMON-SERVICE-DEV, group=COMMON_GROUP
+2026-03-10 16:13:28.786 [main] INFO  com.alibaba.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=CONFIG-SERVICE-DEV, group=COMMON_GROUP
+2026-03-10 16:13:28.849 [http-nio-8803-exec-2] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-10 16:13:28.849 [http-nio-8803-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-10 16:13:28.850 [http-nio-8803-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-03-10 16:13:28.859 [http-nio-8803-exec-1] WARN  com.xhonell.common.advice.GlobalExceptionHandler - 业务异常: 用户未登录
+2026-03-10 16:13:28.859 [http-nio-8803-exec-2] WARN  com.xhonell.common.advice.GlobalExceptionHandler - 业务异常: 用户未登录
+2026-03-10 16:13:29.171 [http-nio-8803-exec-4] WARN  com.xhonell.common.advice.GlobalExceptionHandler - 业务异常: 用户未登录
+2026-03-10 16:13:29.171 [http-nio-8803-exec-3] WARN  com.xhonell.common.advice.GlobalExceptionHandler - 业务异常: 用户未登录
+2026-03-10 16:13:29.424 [http-nio-8803-exec-6] WARN  com.xhonell.common.advice.GlobalExceptionHandler - 业务异常: 用户未登录
+2026-03-10 16:13:29.427 [http-nio-8803-exec-5] WARN  com.xhonell.common.advice.GlobalExceptionHandler - 业务异常: 用户未登录
+2026-03-10 16:13:29.936 [http-nio-8803-exec-8] WARN  com.xhonell.common.advice.GlobalExceptionHandler - 业务异常: 用户未登录
+2026-03-10 16:13:29.936 [http-nio-8803-exec-7] WARN  com.xhonell.common.advice.GlobalExceptionHandler - 业务异常: 用户未登录
+2026-03-10 16:13:33.881 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2026-03-10 16:13:33.881 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2026-03-10 16:13:33.909 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2026-03-10 16:13:33.911 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2026-03-10 16:13:35.003 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2026-03-10 16:13:35.044 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2026-03-10 16:13:35.171 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-0} closing ...
+2026-03-10 16:13:35.505 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2026-03-10 16:13:35.505 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2026-03-10 16:13:35.507 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2026-03-10 16:13:35.508 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2026-03-10 16:13:35.528 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2026-03-10 16:13:35.567 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2026-03-10 16:13:37.224 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2026-03-10 16:13:37.224 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2026-03-10 16:13:37.226 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2026-03-10 16:13:37.227 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2026-03-10 16:13:37.489 [main] INFO  com.xhonell.server.ServerApplication - Starting ServerApplication using Java 17.0.18 with PID 25027 (/Users/xhonell/Project/base-server/server/target/classes started by xhonell in /Users/xhonell/Project/base-server)
+2026-03-10 16:13:37.491 [main] INFO  com.xhonell.server.ServerApplication - The following 1 profile is active: "DEV"
+2026-03-10 16:13:37.505 [main] INFO  com.alibaba.cloud.nacos.configdata.NacosConfigDataLoader - [Nacos Config] Load config[dataId=CONFIG-SERVICE-DEV, group=COMMON_GROUP] success
+2026-03-10 16:13:37.506 [main] INFO  com.alibaba.cloud.nacos.configdata.NacosConfigDataLoader - [Nacos Config] Load config[dataId=COMMON-SERVICE-DEV, group=COMMON_GROUP] success
+2026-03-10 16:13:37.760 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-03-10 16:13:37.761 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-10 16:13:37.771 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2026-03-10 16:13:37.835 [main] INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=58c7208b-6a44-38b9-9194-686a2637ecf9
+2026-03-10 16:13:38.258 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8802 (http)
+2026-03-10 16:13:38.267 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8802"]
+2026-03-10 16:13:38.268 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-10 16:13:38.268 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.5]
+2026-03-10 16:13:38.325 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2026-03-10 16:13:38.372 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-03-10 16:13:38.374 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 866 ms
+2026-03-10 16:13:38.376 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2026-03-10 16:13:38.390 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-0} closing ...
+2026-03-10 16:13:39.368 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8802"]
+2026-03-10 16:13:39.372 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8802 (http) with context path ''
+2026-03-10 16:13:39.379 [main] INFO  com.alibaba.nacos.plugin.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2026-03-10 16:13:39.379 [main] INFO  com.alibaba.nacos.plugin.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2026-03-10 16:13:39.767 [main] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP SERVER-SERVICE 192.168.110.179:8802 register finished
+2026-03-10 16:13:39.773 [main] INFO  com.xhonell.server.ServerApplication - Started ServerApplication in 3.433 seconds (process running for 3.826)
+2026-03-10 16:13:39.790 [main] INFO  com.alibaba.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=COMMON-SERVICE-DEV, group=COMMON_GROUP
+2026-03-10 16:13:39.790 [main] INFO  com.alibaba.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=CONFIG-SERVICE-DEV, group=COMMON_GROUP
+2026-03-10 16:13:41.334 [main] INFO  com.xhonell.gateway.GateWayApplication - Starting GateWayApplication using Java 17.0.18 with PID 25101 (/Users/xhonell/Project/base-server/gateway/target/classes started by xhonell in /Users/xhonell/Project/base-server)
+2026-03-10 16:13:41.335 [main] INFO  com.xhonell.gateway.GateWayApplication - The following 1 profile is active: "DEV"
+2026-03-10 16:13:41.348 [main] INFO  com.alibaba.cloud.nacos.configdata.NacosConfigDataLoader - [Nacos Config] Load config[dataId=COMMON-SERVICE-DEV, group=COMMON_GROUP] success
+2026-03-10 16:13:41.348 [main] INFO  com.alibaba.cloud.nacos.configdata.NacosConfigDataLoader - [Nacos Config] Load config[dataId=GATEWAY-SERVICE-DEV, group=COMMON_GROUP] success
+2026-03-10 16:13:41.547 [main] INFO  com.xhonell.admin.AdminApplication - Starting AdminApplication using Java 17.0.18 with PID 25103 (/Users/xhonell/Project/base-server/admin/target/classes started by xhonell in /Users/xhonell/Project/base-server)
+2026-03-10 16:13:41.549 [main] INFO  com.xhonell.admin.AdminApplication - The following 1 profile is active: "DEV"
+2026-03-10 16:13:41.562 [main] INFO  com.alibaba.cloud.nacos.configdata.NacosConfigDataLoader - [Nacos Config] Load config[dataId=CONFIG-SERVICE-DEV, group=COMMON_GROUP] success
+2026-03-10 16:13:41.562 [main] INFO  com.alibaba.cloud.nacos.configdata.NacosConfigDataLoader - [Nacos Config] Load config[dataId=COMMON-SERVICE-DEV, group=COMMON_GROUP] success
+2026-03-10 16:13:41.571 [main] INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=f2c5360a-f46d-338b-b64b-ae49a6c14495
+2026-03-10 16:13:41.592 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-03-10 16:13:41.592 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-03-10 16:13:41.593 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-03-10 16:13:41.932 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-03-10 16:13:41.933 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-10 16:13:41.945 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2026-03-10 16:13:41.962 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [After]
+2026-03-10 16:13:41.962 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Before]
+2026-03-10 16:13:41.962 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Between]
+2026-03-10 16:13:41.962 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Cookie]
+2026-03-10 16:13:41.962 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Header]
+2026-03-10 16:13:41.962 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Host]
+2026-03-10 16:13:41.962 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Method]
+2026-03-10 16:13:41.963 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Path]
+2026-03-10 16:13:41.963 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Query]
+2026-03-10 16:13:41.963 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [ReadBody]
+2026-03-10 16:13:41.963 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [RemoteAddr]
+2026-03-10 16:13:41.963 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2026-03-10 16:13:41.964 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [Weight]
+2026-03-10 16:13:41.964 [main] INFO  org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator - Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2026-03-10 16:13:42.031 [main] INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=1a964d6a-9c28-32d7-ae2f-3bdde1e8ce91
+2026-03-10 16:13:42.038 [main] WARN  org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-03-10 16:13:42.075 [main] INFO  org.springframework.boot.web.embedded.netty.NettyWebServer - Netty started on port 8801
+2026-03-10 16:13:42.083 [main] INFO  com.alibaba.nacos.plugin.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2026-03-10 16:13:42.083 [main] INFO  com.alibaba.nacos.plugin.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2026-03-10 16:13:42.242 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8803 (http)
+2026-03-10 16:13:42.245 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8803"]
+2026-03-10 16:13:42.246 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-10 16:13:42.246 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.5]
+2026-03-10 16:13:42.277 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-03-10 16:13:42.277 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 714 ms
+2026-03-10 16:13:42.457 [main] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP GATEWAY-SERVICE 192.168.110.179:8801 register finished
+2026-03-10 16:13:42.584 [main] INFO  com.alibaba.cloud.nacos.discovery.NacosDiscoveryHeartBeatPublisher - Start nacos heartBeat task scheduler.
+2026-03-10 16:13:42.590 [main] INFO  com.xhonell.gateway.GateWayApplication - Started GateWayApplication in 2.468 seconds (process running for 2.924)
+2026-03-10 16:13:42.594 [main] INFO  com.alibaba.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=COMMON-SERVICE-DEV, group=COMMON_GROUP
+2026-03-10 16:13:42.594 [main] INFO  com.alibaba.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=GATEWAY-SERVICE-DEV, group=COMMON_GROUP
+2026-03-10 16:13:43.010 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8803"]
+2026-03-10 16:13:43.014 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8803 (http) with context path ''
+2026-03-10 16:13:43.020 [main] INFO  com.alibaba.nacos.plugin.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2026-03-10 16:13:43.020 [main] INFO  com.alibaba.nacos.plugin.auth.spi.client.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2026-03-10 16:13:43.415 [main] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP ADMIN-SERVICE 192.168.110.179:8803 register finished
+2026-03-10 16:13:43.432 [main] INFO  com.xhonell.admin.AdminApplication - Started AdminApplication in 2.941 seconds (process running for 3.398)
+2026-03-10 16:13:43.443 [main] INFO  com.alibaba.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=COMMON-SERVICE-DEV, group=COMMON_GROUP
+2026-03-10 16:13:43.443 [main] INFO  com.alibaba.cloud.nacos.refresh.NacosContextRefresher - [Nacos Config] Listening config: dataId=CONFIG-SERVICE-DEV, group=COMMON_GROUP
+2026-03-10 16:13:43.885 [boundedElastic-6] WARN  org.springframework.cloud.loadbalancer.core.RoundRobinLoadBalancer - No servers available for service: ADMIN-SERVICE
+2026-03-10 16:13:44.785 [boundedElastic-3] ERROR io.netty.resolver.dns.DnsServerAddressStreamProviders - Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'. Use DEBUG level to see the full stack: java.lang.UnsatisfiedLinkError: failed to load the required native library
+2026-03-10 16:13:44.829 [http-nio-8803-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-10 16:13:44.829 [http-nio-8803-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-10 16:13:44.830 [http-nio-8803-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-03-10 16:13:47.426 [http-nio-8803-exec-1] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2026-03-10 17:38:59.342 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2026-03-10 17:38:59.342 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2026-03-10 17:38:59.351 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2026-03-10 17:38:59.358 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2026-03-10 17:38:59.389 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2026-03-10 17:38:59.425 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2026-03-10 17:39:03.433 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2026-03-10 17:39:03.433 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2026-03-10 17:39:03.438 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2026-03-10 17:39:03.440 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2026-03-10 17:39:04.554 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registering from Nacos Server now...
+2026-03-10 17:39:04.603 [SpringApplicationShutdownHook] INFO  com.alibaba.cloud.nacos.registry.NacosServiceRegistry - De-registration finished.
+2026-03-10 17:39:04.613 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2026-03-10 17:39:04.822 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
