@@ -10,11 +10,13 @@ import com.xhonell.common.domain.entity.AgeRange;
 import com.xhonell.common.domain.entity.Banner;
 import com.xhonell.common.domain.entity.Politic;
 import com.xhonell.common.domain.request.AgeRangePageRequest;
+import com.xhonell.common.domain.response.SelectOption;
 import com.xhonell.common.utils.PageUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * program: BaseServer
@@ -51,5 +53,15 @@ public class AgeRangeServiceImpl extends ServiceImpl<AgeRangeMapper, AgeRange> i
         updateWrapper.set(Objects.nonNull(ageRange.getMaxAge()), AgeRange::getMaxAge, ageRange.getMaxAge());
         updateWrapper.set(Objects.nonNull(ageRange.getMinAge()), AgeRange::getMinAge, ageRange.getMinAge());
         update(ageRange, updateWrapper);
+    }
+
+    @Override
+    public List<SelectOption> selectEnabledList() {
+        LambdaQueryWrapper<AgeRange> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByAsc(AgeRange::getId);
+        List<AgeRange> ageRanges = baseMapper.selectList(queryWrapper);
+        return ageRanges.stream()
+                .map(ageRange -> new SelectOption(ageRange.getId(), ageRange.getName()))
+                .collect(Collectors.toList());
     }
 }

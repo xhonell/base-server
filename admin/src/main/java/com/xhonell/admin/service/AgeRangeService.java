@@ -6,6 +6,9 @@ import com.xhonell.admin.mapper.AgeRangeMapper;
 import com.xhonell.common.domain.entity.AgeRange;
 import com.xhonell.common.domain.entity.Politic;
 import com.xhonell.common.domain.request.AgeRangePageRequest;
+import com.xhonell.common.domain.response.SelectOption;
+
+import java.util.List;
 
 /**
  * program: BaseServer
@@ -21,4 +24,9 @@ public interface AgeRangeService extends IService<AgeRange> {
     void saveBy(AgeRange ageRange);
 
     void updateBy(AgeRange ageRange);
+
+    /**
+     * 获取年龄段下拉列表
+     */
+    List<SelectOption> selectEnabledList();
 }

@@ -5,6 +5,7 @@ import com.xhonell.admin.service.ContentService;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.entity.Content;
 import com.xhonell.common.domain.request.ContentPageRequest;
+import com.xhonell.common.domain.request.ContentSaveRequest;
 import com.xhonell.common.domain.request.UpdateStatusRequest;
 import com.xhonell.common.domain.response.ContentResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,14 +32,14 @@ public class ContentController {
     }
 
     @PostMapping("/save")
-    public Result<String> save(@RequestBody Content content) {
-        contentService.saveBy(content);
+    public Result<String> save(@RequestBody ContentSaveRequest request) {
+        contentService.saveBy(request);
         return Result.success();
     }
 
     @PostMapping("/update")
-    public Result<String> update(@RequestBody Content content) {
-        contentService.updateBy(content);
+    public Result<String> update(@RequestBody ContentSaveRequest request) {
+        contentService.updateBy(request);
         return Result.success();
     }
 

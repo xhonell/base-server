@@ -84,6 +84,21 @@ public class Content implements Serializable {
     private Byte status;
 
     /**
+     * 阅读量
+     */
+    private Integer viewCount;
+
+    /**
+     * 点赞数
+     */
+    private Integer likeCount;
+
+    /**
+     * 收藏数
+     */
+    private Integer collectCount;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;

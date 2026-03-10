@@ -6,19 +6,24 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageInfo;
 import com.xhonell.admin.mapper.ContentMapper;
+import com.xhonell.admin.service.ArticleService;
 import com.xhonell.admin.service.ContentCategoryService;
+import com.xhonell.admin.service.ContentService;
 import com.xhonell.admin.service.DifficultyService;
 import com.xhonell.admin.service.FileService;
 import com.xhonell.admin.service.PoliticService;
 import com.xhonell.admin.service.TagService;
-import com.xhonell.admin.service.ContentService;
+import com.xhonell.admin.service.VideoService;
+import com.xhonell.common.domain.entity.Article;
 import com.xhonell.common.domain.entity.Content;
 import com.xhonell.common.domain.entity.ContentCategory;
 import com.xhonell.common.domain.entity.Difficulty;
 import com.xhonell.common.domain.entity.File;
 import com.xhonell.common.domain.entity.Politic;
 import com.xhonell.common.domain.entity.Tag;
+import com.xhonell.common.domain.entity.Video;
 import com.xhonell.common.domain.request.ContentPageRequest;
+import com.xhonell.common.domain.request.ContentSaveRequest;
 import com.xhonell.common.domain.response.ContentResponse;
 import com.xhonell.common.utils.PageUtils;
 
@@ -49,6 +54,8 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
     private final FileService fileService;
     private final PoliticService politicService;
     private final TagService tagService;
+    private final ArticleService articleService;
+    private final VideoService videoService;
 
     @Override
     public PageInfo<ContentResponse> selectList(Integer page, Integer pageSize) {
@@ -67,23 +74,55 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
     }
 
     @Override
-    public void saveBy(Content peContent) {
-        save(peContent);
+    public void saveBy(ContentSaveRequest request) {
+        Content content = new Content();
+        content.setTitle(request.getTitle());
+        content.setType(request.getType());
+        content.setCategoryId(request.getCategoryId());
+        content.setDescription(request.getDescription());
+        content.setFileId(request.getFileId());
+        content.setDifficultyId(request.getDifficultyId());
+        content.setTagId(request.getTagId());
+        content.setPoliticId(request.getPoliticId());
+        content.setStatus(request.getStatus());
+        save(content);
+
+        // 根据内容类型保存到不同的表
+        if (request.getType() == 1) {
+            // 文章类型：保存到 Article 表
+            articleService.saveByContentId(content.getId(), request.getContent(), request.getAuthor(), request.getSource());
+        } else if (request.getType() == 2) {
+            // 视频类型：保存到 Video 表
+            videoService.saveByContentId(content.getId(), request.getDuration(), request.getCoverId(),
+                    request.getResolution(), request.getFormat(), request.getSize());
+        }
     }
 
     @Override
-    public void updateBy(Content peContent) {
+    public void updateBy(ContentSaveRequest request) {
         LambdaUpdateWrapper<Content> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(Content::getId, peContent.getId());
-        updateWrapper.set(Objects.nonNull(peContent.getTitle()), Content::getTitle, peContent.getTitle());
-        updateWrapper.set(Objects.nonNull(peContent.getType()), Content::getType, peContent.getType());
-        updateWrapper.set(Objects.nonNull(peContent.getDescription()), Content::getDescription, peContent.getDescription());
-        updateWrapper.set(Objects.nonNull(peContent.getFileId()), Content::getFileId, peContent.getFileId());
-        updateWrapper.set(Objects.nonNull(peContent.getDifficultyId()), Content::getDifficultyId, peContent.getDifficultyId());
-        updateWrapper.set(Objects.nonNull(peContent.getTagId()), Content::getTagId, peContent.getTagId());
-        updateWrapper.set(Objects.nonNull(peContent.getPoliticId()), Content::getPoliticId, peContent.getPoliticId());
-        updateWrapper.set(Objects.nonNull(peContent.getStatus()), Content::getStatus, peContent.getStatus());
+        updateWrapper.eq(Content::getId, request.getId());
+        updateWrapper.set(Objects.nonNull(request.getTitle()), Content::getTitle, request.getTitle());
+        updateWrapper.set(Objects.nonNull(request.getDescription()), Content::getDescription, request.getDescription());
+        updateWrapper.set(Objects.nonNull(request.getFileId()), Content::getFileId, request.getFileId());
+        updateWrapper.set(Objects.nonNull(request.getDifficultyId()), Content::getDifficultyId, request.getDifficultyId());
+        updateWrapper.set(Objects.nonNull(request.getTagId()), Content::getTagId, request.getTagId());
+        updateWrapper.set(Objects.nonNull(request.getPoliticId()), Content::getPoliticId, request.getPoliticId());
+        updateWrapper.set(Objects.nonNull(request.getStatus()), Content::getStatus, request.getStatus());
         update(updateWrapper);
+
+        // 根据内容类型更新不同的表
+        Content existingContent = getById(request.getId());
+        if (existingContent != null) {
+            if (existingContent.getType() == 1) {
+                // 文章类型：更新 Article 表
+                articleService.updateByContentId(request.getId(), request.getContent(), request.getAuthor(), request.getSource());
+            } else if (existingContent.getType() == 2) {
+                // 视频类型：更新 Video 表
+                videoService.updateByContentId(request.getId(), request.getDuration(), request.getCoverId(),
+                        request.getResolution(), request.getFormat(), request.getSize());
+            }
+        }
     }
 
     @Override
@@ -92,6 +131,24 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
         updateWrapper.eq(Content::getId, id);
         updateWrapper.set(Content::getStatus, status ? (byte) 1 : 0);
         update(updateWrapper);
+    }
+
+    @Override
+    public boolean removeById(Long id) {
+        // 先查询内容类型
+        Content content = getById(id);
+        if (content != null) {
+            // 根据类型删除关联数据
+            if (content.getType() == 1) {
+                // 文章类型：删除 Article 表中的数据
+                articleService.removeByContentId(id);
+            } else if (content.getType() == 2) {
+                // 视频类型：删除 Video 表中的数据
+                videoService.removeByContentId(id);
+            }
+        }
+        // 删除 Content 表中的数据
+        return super.removeById(id);
     }
 
     private List<Content> selectListBy() {
@@ -159,29 +216,34 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
             .filter(Objects::nonNull)
             .distinct()
             .collect(Collectors.toList());
-            
+
         List<Long> difficultyIds = contents.stream()
             .map(Content::getDifficultyId)
             .filter(Objects::nonNull)
             .distinct()
             .collect(Collectors.toList());
-            
+
         List<Long> fileIds = contents.stream()
             .map(Content::getFileId)
             .filter(Objects::nonNull)
             .distinct()
             .collect(Collectors.toList());
-            
+
         List<Long> politicIds = contents.stream()
             .map(Content::getPoliticId)
             .filter(Objects::nonNull)
             .distinct()
             .collect(Collectors.toList());
-            
+
         List<Long> tagIds = contents.stream()
             .map(Content::getTagId)
             .filter(Objects::nonNull)
             .distinct()
+            .collect(Collectors.toList());
+
+        // 获取所有内容ID，用于查询文章和视频
+        List<Long> contentIds = contents.stream()
+            .map(Content::getId)
             .collect(Collectors.toList());
 
         // 批量查询关联数据
@@ -190,6 +252,9 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
         Map<Long, String> fileMap = getFileMap(fileIds);
         Map<Long, String> politicMap = getPoliticMap(politicIds);
         Map<Long, String> tagMap = getTagMap(tagIds);
+        Map<Long, Article> articleMap = getArticleMap(contentIds);
+        Map<Long, Video> videoMap = getVideoMap(contentIds);
+        Map<Long, String> coverMap = getCoverMap(videoMap.values());
 
         // 转换为Response对象
         return contents.stream()
@@ -202,7 +267,7 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
                 response.setCategoryName(categoryMap.get(content.getCategoryId()));
                 response.setDescription(content.getDescription());
                 response.setFileId(content.getFileId());
-                response.setFileName(fileMap.get(content.getFileId()));
+                response.setFileImage(fileMap.get(content.getFileId()));
                 response.setDifficultyId(content.getDifficultyId());
                 response.setDifficultyName(difficultyMap.get(content.getDifficultyId()));
                 response.setTagId(content.getTagId());
@@ -210,8 +275,31 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
                 response.setPoliticId(content.getPoliticId());
                 response.setPoliticName(politicMap.get(content.getPoliticId()));
                 response.setStatus(content.getStatus());
+                response.setViewCount(content.getViewCount());
+                response.setLikeCount(content.getLikeCount());
+                response.setCollectCount(content.getCollectCount());
                 response.setCreateTime(content.getCreateTime());
                 response.setUpdateTime(content.getUpdateTime());
+
+                // 文章相关字段
+                Article article = articleMap.get(content.getId());
+                if (article != null) {
+                    response.setContent(article.getContent());
+                    response.setAuthor(article.getAuthor());
+                    response.setSource(article.getSource());
+                }
+
+                // 视频相关字段
+                Video video = videoMap.get(content.getId());
+                if (video != null) {
+                    response.setDuration(video.getDuration());
+                    response.setCoverId(video.getCoverId());
+                    response.setCoverUrl(coverMap.get(video.getCoverId()));
+                    response.setResolution(video.getResolution());
+                    response.setFormat(video.getFormat());
+                    response.setSize(video.getSize());
+                }
+
                 return response;
             })
             .collect(Collectors.toList());
@@ -250,10 +338,70 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
         if (fileIds == null || fileIds.isEmpty()) {
             return Map.of();
         }
-        
+
         List<File> files = fileService.listByIds(fileIds);
         return files.stream()
-            .collect(Collectors.toMap(File::getId, File::getFileUrl));
+            .collect(Collectors.toMap(File::getId, File::getFilePathUrl));
+    }
+
+    /**
+     * 获取封面图URL映射
+     */
+    private Map<Long, String> getCoverMap(List<Long> coverIds) {
+        if (coverIds == null || coverIds.isEmpty()) {
+            return Map.of();
+        }
+
+        List<File> files = fileService.listByIds(coverIds);
+        return files.stream()
+            .collect(Collectors.toMap(File::getId, File::getFilePathUrl));
+    }
+
+    /**
+     * 获取封面图URL映射（从Video对象中提取）
+     */
+    private Map<Long, String> getCoverMap(java.util.Collection<Video> videos) {
+        if (videos == null || videos.isEmpty()) {
+            return Map.of();
+        }
+
+        List<Long> coverIds = videos.stream()
+            .map(Video::getCoverId)
+            .filter(Objects::nonNull)
+            .distinct()
+            .collect(Collectors.toList());
+
+        return getCoverMap(coverIds);
+    }
+
+    /**
+     * 获取文章映射
+     */
+    private Map<Long, Article> getArticleMap(List<Long> contentIds) {
+        if (contentIds == null || contentIds.isEmpty()) {
+            return Map.of();
+        }
+
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(Article::getContentId, contentIds);
+        List<Article> articles = articleService.list(queryWrapper);
+        return articles.stream()
+            .collect(Collectors.toMap(Article::getContentId, article -> article));
+    }
+
+    /**
+     * 获取视频映射
+     */
+    private Map<Long, Video> getVideoMap(List<Long> contentIds) {
+        if (contentIds == null || contentIds.isEmpty()) {
+            return Map.of();
+        }
+
+        LambdaQueryWrapper<Video> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(Video::getContentId, contentIds);
+        List<Video> videos = videoService.list(queryWrapper);
+        return videos.stream()
+            .collect(Collectors.toMap(Video::getContentId, video -> video));
     }
     
     /**

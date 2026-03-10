@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xhonell.common.domain.entity.ContentCategory;
 import com.xhonell.common.domain.request.ContentCategoryPageRequest;
 import com.xhonell.common.domain.response.ContentCategoryResponse;
+import com.xhonell.common.domain.response.TreeSelectOption;
 
 import java.util.List;
 
@@ -26,4 +27,9 @@ public interface ContentCategoryService extends IService<ContentCategory> {
     void updateBy(ContentCategory contentCategory);
 
     void updateStatus(Long id, Boolean status);
+
+    /**
+     * 获取启用状态的内容分类下拉列表（树形结构）
+     */
+    List<TreeSelectOption> selectEnabledList();
 }

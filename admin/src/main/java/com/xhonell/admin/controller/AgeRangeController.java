@@ -8,9 +8,11 @@ import com.xhonell.common.domain.entity.AgeRange;
 import com.xhonell.common.domain.entity.Politic;
 import com.xhonell.common.domain.request.AgeRangePageRequest;
 import com.xhonell.common.domain.request.PoliticPageRequest;
+import com.xhonell.common.domain.response.SelectOption;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +33,11 @@ public class AgeRangeController {
     @GetMapping("/list")
     public Result<PageInfo<AgeRange>> list(AgeRangePageRequest request) {
         return Result.success( ageRangeService.selectList(request));
+    }
+
+    @GetMapping("/options")
+    public Result<List<SelectOption>> options() {
+        return Result.success(ageRangeService.selectEnabledList());
     }
 
     @PostMapping("/save")
