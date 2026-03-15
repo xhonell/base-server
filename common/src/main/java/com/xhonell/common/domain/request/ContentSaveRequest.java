@@ -1,4 +1,4 @@
-package com.xhonell.common.domain.response;
+package com.xhonell.common.domain.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -6,14 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * program: BaseServer
- * ClassName ContentResponse
- * description: 内容响应类，用于返回内容相关信息及关联信息
+ * ClassName ContentSaveRequest
+ * description: 内容保存请求
  * author: xhonell
- * create: 2026年3月8日
+ * create: 2026年3月9日
  * Version 1.0
  **/
 @Data
@@ -21,10 +22,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContentResponse {
+public class ContentSaveRequest implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
-     * 主键ID
+     * 主键
      */
     private Long id;
 
@@ -44,11 +48,6 @@ public class ContentResponse {
     private Long categoryId;
 
     /**
-     * 分类名称
-     */
-    private String categoryName;
-
-    /**
      * 内容简介
      */
     private String description;
@@ -59,19 +58,9 @@ public class ContentResponse {
     private Long fileId;
 
     /**
-     * 文件图片
-     */
-    private String fileImage;
-
-    /**
      * 难度等级ID
      */
     private Long difficultyId;
-
-    /**
-     * 难度等级名称
-     */
-    private String difficultyName;
 
     /**
      * 标签ID
@@ -79,73 +68,16 @@ public class ContentResponse {
     private Long tagId;
 
     /**
-     * 标签名称
-     */
-    private String tagName;
-
-    /**
      * 政治面貌ID
      */
     private Long politicId;
-
-    /**
-     * 政治面貌名称
-     */
-    private String politicName;
 
     /**
      * 状态（1 启用，0 禁用）
      */
     private Byte status;
 
-    /**
-     * 阅读量
-     */
-    private Integer viewCount;
-
-    /**
-     * 点赞数
-     */
-    private Integer likeCount;
-
-    /**
-     * 收藏数
-     */
-    private Integer collectCount;
-
-    // ========== 视频相关字段（仅当type=2时有值） ==========
-
-    /**
-     * 视频时长（秒）
-     */
-    private Long duration;
-
-    /**
-     * 视频封面图ID
-     */
-    private Long coverId;
-
-    /**
-     * 视频封面图URL
-     */
-    private String coverUrl;
-
-    /**
-     * 视频分辨率（如：1920x1080）
-     */
-    private String resolution;
-
-    /**
-     * 视频格式（如：mp4, avi）
-     */
-    private String format;
-
-    /**
-     * 视频大小（字节）
-     */
-    private Long size;
-
-    // ========== 文章相关字段（仅当type=1时有值） ==========
+    // ========== 文章相关字段（仅当type=1时使用） ==========
 
     /**
      * 文章内容（富文本）
@@ -162,13 +94,31 @@ public class ContentResponse {
      */
     private String source;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
+    // ========== 视频相关字段（仅当type=2时使用） ==========
 
     /**
-     * 修改时间
+     * 视频时长（秒）
      */
-    private LocalDateTime updateTime;
+    private Long duration;
+
+    /**
+     * 视频封面图ID
+     */
+    private Long coverId;
+
+    /**
+     * 视频分辨率（如：1920x1080）
+     */
+    private String resolution;
+
+    /**
+     * 视频格式（如：mp4, avi）
+     */
+    private String format;
+
+    /**
+     * 视频大小（字节）
+     */
+    private Long size;
+
 }

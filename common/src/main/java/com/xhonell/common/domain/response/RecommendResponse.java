@@ -1,24 +1,19 @@
-package com.xhonell.common.domain.entity;
+package com.xhonell.common.domain.response;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * program: BaseServer
- * ClassName Content
- * description:
+ * ClassName RecommendResponse
+ * description: 推荐响应类
  * author: xhonell
- * create: 2025年10月24日21时07分
+ * create: 2026年3月10日
  * Version 1.0
  **/
 @Data
@@ -26,16 +21,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_content")
-public class Content implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class RecommendResponse {
 
     /**
-     * 主键
+     * 内容ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
@@ -54,37 +44,57 @@ public class Content implements Serializable {
     private Long categoryId;
 
     /**
+     * 分类名称
+     */
+    private String categoryName;
+
+    /**
      * 内容简介
      */
     private String description;
 
     /**
-     * 文件主键（若为视频则存储视频ID）
+     * 文件ID（视频）
      */
     private Long fileId;
 
     /**
-     * 难度等级ID
+     * 文件URL
      */
-    private Long difficultyId;
+    private String fileUrl;
 
     /**
-     * 标签ID
+     * 封面图ID（视频）
      */
-    private Long tagId;
+    private Long coverId;
 
     /**
-     * 政治面貌ID
+     * 封面图URL
      */
-    private Long politicId;
+    private String coverUrl;
 
     /**
-     * 状态（1 启用，0 禁用）
+     * 视频时长（秒）
      */
-    private Byte status;
+    private Long duration;
 
     /**
-     * 阅读量
+     * 文章内容
+     */
+    private String content;
+
+    /**
+     * 作者
+     */
+    private String author;
+
+    /**
+     * 来源
+     */
+    private String source;
+
+    /**
+     * 阅读量/播放量
      */
     private Integer viewCount;
 
@@ -99,12 +109,17 @@ public class Content implements Serializable {
     private Integer collectCount;
 
     /**
+     * 推荐得分（用于排序）
+     */
+    private Double score;
+
+    /**
+     * 推荐理由
+     */
+    private String reason;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;
-
-    /**
-     * 修改时间
-     */
-    private LocalDateTime updateTime;
 }

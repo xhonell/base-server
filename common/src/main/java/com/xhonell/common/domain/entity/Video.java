@@ -69,21 +69,6 @@ public class Video implements Serializable {
     private Long size;
 
     /**
-     * 播放次数
-     */
-    private Integer playCount;
-
-    /**
-     * 点赞数
-     */
-    private Integer likeCount;
-
-    /**
-     * 收藏数
-     */
-    private Integer collectCount;
-
-    /**
      * 创建时间
      */
     private LocalDateTime createTime;

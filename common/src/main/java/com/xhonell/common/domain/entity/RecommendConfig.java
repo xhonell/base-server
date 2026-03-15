@@ -14,20 +14,15 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * program: BaseServer
- * ClassName Content
- * description:
- * author: xhonell
- * create: 2025年10月24日21时07分
- * Version 1.0
- **/
+ * 推荐算法配置表
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_content")
-public class Content implements Serializable {
+@TableName("pe_recommend_config")
+public class RecommendConfig implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -39,64 +34,62 @@ public class Content implements Serializable {
     private Long id;
 
     /**
-     * 标题
+     * 推荐算法类型
+     * 1=热门推荐
+     * 2=最新推荐
+     * 3=混合推荐
+     * 4=协同过滤
      */
-    private String title;
+    private Integer algorithmType;
 
     /**
-     * 内容类型（1=文章，2=视频）
+     * 推荐数量
      */
-    private Byte type;
+    private Integer recommendCount;
 
     /**
-     * 分类ID
+     * 多样性权重(0-100)
      */
-    private Long categoryId;
+    private Integer diversityWeight;
 
     /**
-     * 内容简介
+     * 新鲜度权重(0-100)
      */
-    private String description;
+    private Integer freshnessWeight;
 
     /**
-     * 文件主键（若为视频则存储视频ID）
+     * 热度权重(0-100)
      */
-    private Long fileId;
+    private Integer hotWeight;
 
     /**
-     * 难度等级ID
+     * 年龄适配
+     * 1开启 0关闭
      */
-    private Long difficultyId;
+    private Integer ageAdapt;
 
     /**
-     * 标签ID
+     * 政治面貌适配
+     * 1开启 0关闭
      */
-    private Long tagId;
+    private Integer politicalAdapt;
 
     /**
-     * 政治面貌ID
+     * 状态（1启用，0禁用）
+     * 同一时间只能有一个配置为启用状态
      */
-    private Long politicId;
+    private Integer status;
+
 
     /**
-     * 状态（1 启用，0 禁用）
+     * 规则名称
      */
-    private Byte status;
+    private String ruleName;
 
     /**
-     * 阅读量
+     * 规则描述
      */
-    private Integer viewCount;
-
-    /**
-     * 点赞数
-     */
-    private Integer likeCount;
-
-    /**
-     * 收藏数
-     */
-    private Integer collectCount;
+    private String ruleDesc;
 
     /**
      * 创建时间
@@ -104,7 +97,7 @@ public class Content implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     private LocalDateTime updateTime;
 }

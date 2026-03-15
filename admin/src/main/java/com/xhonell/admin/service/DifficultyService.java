@@ -4,6 +4,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.xhonell.common.domain.entity.Difficulty;
 import com.xhonell.common.domain.request.DifficultyPageRequest;
+import com.xhonell.common.domain.request.DifficultySaveRequest;
+import com.xhonell.common.domain.response.SelectOption;
+
+import java.util.List;
 
 /**
  * program: BaseServer
@@ -17,9 +21,14 @@ public interface DifficultyService extends IService<Difficulty> {
 
     PageInfo<Difficulty> selectList(DifficultyPageRequest request);
 
-    void saveBy(Difficulty difficulty);
+    void saveBy(DifficultySaveRequest request);
 
-    void updateBy(Difficulty difficulty);
+    void updateBy(DifficultySaveRequest request);
 
     void updateStatus(Long id, Boolean status);
+
+    /**
+     * 获取启用状态的难度下拉列表
+     */
+    List<SelectOption> selectEnabledList();
 }

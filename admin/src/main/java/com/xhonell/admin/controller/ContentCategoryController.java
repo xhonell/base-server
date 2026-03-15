@@ -6,6 +6,7 @@ import com.xhonell.common.domain.entity.ContentCategory;
 import com.xhonell.common.domain.request.ContentCategoryPageRequest;
 import com.xhonell.common.domain.request.UpdateStatusRequest;
 import com.xhonell.common.domain.response.ContentCategoryResponse;
+import com.xhonell.common.domain.response.TreeSelectOption;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,11 @@ public class ContentCategoryController {
     @GetMapping("/parent-list")
     public Result<List<ContentCategoryResponse>> getParentCategoryList() {
         return Result.success(contentCategoryService.getParentCategoryList());
+    }
+
+    @GetMapping("/options")
+    public Result<List<TreeSelectOption>> options() {
+        return Result.success(contentCategoryService.selectEnabledList());
     }
 
     @PostMapping("/save")

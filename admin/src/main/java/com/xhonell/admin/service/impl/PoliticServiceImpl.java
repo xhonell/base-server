@@ -12,6 +12,7 @@ import com.xhonell.common.domain.entity.File;
 import com.xhonell.common.domain.entity.Politic;
 import com.xhonell.common.domain.request.PoliticPageRequest;
 import com.xhonell.common.domain.response.BannerResponse;
+import com.xhonell.common.domain.response.SelectOption;
 import com.xhonell.common.utils.ListUtil;
 import com.xhonell.common.utils.PageUtils;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * program: BaseServer
@@ -59,6 +61,17 @@ public class PoliticServiceImpl extends ServiceImpl<PoliticMapper, Politic> impl
         updateWrapper.eq(Politic::getId, id);
         updateWrapper.set(Politic::getStatus, status);
         update(updateWrapper);
+    }
+
+    @Override
+    public List<SelectOption> selectEnabledList() {
+        LambdaQueryWrapper<Politic> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Politic::getStatus, (byte) 1);
+        queryWrapper.orderByAsc(Politic::getId);
+        List<Politic> politics = baseMapper.selectList(queryWrapper);
+        return politics.stream()
+                .map(politic -> new SelectOption(politic.getId(), politic.getName()))
+                .collect(Collectors.toList());
     }
 
     private List<Politic> selectListBy(PoliticPageRequest request) {

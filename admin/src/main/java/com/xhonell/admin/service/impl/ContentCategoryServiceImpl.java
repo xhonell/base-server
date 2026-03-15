@@ -8,6 +8,7 @@ import com.xhonell.admin.service.ContentCategoryService;
 import com.xhonell.common.domain.entity.ContentCategory;
 import com.xhonell.common.domain.request.ContentCategoryPageRequest;
 import com.xhonell.common.domain.response.ContentCategoryResponse;
+import com.xhonell.common.domain.response.TreeSelectOption;
 import com.xhonell.common.utils.TreeBuilderUtil;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,7 @@ public class ContentCategoryServiceImpl extends ServiceImpl<ContentCategoryMappe
         queryWrapper.eq(ContentCategory::getParentId, 0L).or()
                    .isNull(ContentCategory::getParentId);
         queryWrapper.orderByDesc(ContentCategory::getId);
-        
+
         List<ContentCategory> contentCategories = baseMapper.selectList(queryWrapper);
         // 将实体类转换为响应类
         return contentCategories.stream()
@@ -81,6 +82,34 @@ public class ContentCategoryServiceImpl extends ServiceImpl<ContentCategoryMappe
         updateWrapper.eq(ContentCategory::getId, id);
         updateWrapper.set(ContentCategory::getStatus, status ? (byte) 1 : 0);
         update(updateWrapper);
+    }
+
+    @Override
+    public List<TreeSelectOption> selectEnabledList() {
+        LambdaQueryWrapper<ContentCategory> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ContentCategory::getStatus, 1L);
+        queryWrapper.orderByAsc(ContentCategory::getId);
+        List<ContentCategory> contentCategories = baseMapper.selectList(queryWrapper);
+
+        // 转换为树形下拉选项
+        List<TreeSelectOption> options = contentCategories.stream()
+                .map(category -> new TreeSelectOption(category.getId(), category.getCategoryName(), null))
+                .collect(Collectors.toList());
+
+        // 使用TreeBuilderUtil构建树状结构
+        return TreeBuilderUtil.buildTree(
+            options,
+            TreeSelectOption::getValue,
+            (node) -> {
+                // 查找父ID，通过原始列表查找
+                ContentCategory category = contentCategories.stream()
+                    .filter(c -> c.getId().equals(node.getValue()))
+                    .findFirst()
+                    .orElse(null);
+                return category != null ? category.getParentId() : null;
+            },
+                TreeSelectOption::setChildren
+        );
     }
 
     private List<ContentCategory> selectListBy(ContentCategoryPageRequest request) {
