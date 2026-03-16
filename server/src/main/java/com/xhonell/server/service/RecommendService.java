@@ -22,4 +22,11 @@ public interface RecommendService {
      * @return 推荐内容列表
      */
     List<RecommendResponse> recommend(RecommendRequest request);
+    
+    /**
+     * 获取近一周热门文章列表（如果不足则扩展时间范围）
+     * 
+     * @return 热门文章列表
+     */
+    List<RecommendResponse> getWeeklyHotArticles();
 }

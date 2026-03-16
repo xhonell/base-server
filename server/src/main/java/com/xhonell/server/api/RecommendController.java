@@ -40,7 +40,7 @@ public class RecommendController {
      */
     @PostMapping("/articles")
     public Result<List<RecommendResponse>> recommendArticles() {
-        List<RecommendResponse> recommendations = recommendService.recommend(new RecommendRequest().setType((byte) 2));
+        List<RecommendResponse> recommendations = recommendService.recommend(new RecommendRequest().setType((byte) 1));
         return Result.success(recommendations);
     }
 
@@ -51,6 +51,16 @@ public class RecommendController {
     @PostMapping("/videos")
     public Result<List<RecommendResponse>> recommendVideos() {
         List<RecommendResponse> recommendations = recommendService.recommend(new RecommendRequest().setType((byte) 2));
+        return Result.success(recommendations);
+    }
+    
+    /**
+     * 获取近一周热门文章列表（如果不足则扩展时间范围）
+     * @return 热门文章列表（最多2篇）
+     */
+    @GetMapping("/weekly-hot-articles")
+    public Result<List<RecommendResponse>> getWeeklyHotArticles() {
+        List<RecommendResponse> recommendations = recommendService.getWeeklyHotArticles();
         return Result.success(recommendations);
     }
 }

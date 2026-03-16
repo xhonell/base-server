@@ -6,6 +6,7 @@ import com.xhonell.common.domain.entity.Content;
 import com.xhonell.common.domain.entity.ContentCategory;
 import com.xhonell.common.domain.entity.File;
 import com.xhonell.common.domain.entity.RecommendConfig;
+import com.xhonell.common.domain.entity.Tag;
 import com.xhonell.common.domain.entity.Video;
 import com.xhonell.common.domain.request.RecommendRequest;
 import com.xhonell.common.domain.response.RecommendResponse;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -40,6 +42,7 @@ public class RecommendServiceImpl implements RecommendService {
     private final VideoService videoService;
     private final ContentCategoryService contentCategoryService;
     private final FileService fileService;
+    private final TagService tagService;
 
     @Override
     public List<RecommendResponse> recommend(RecommendRequest request) {
@@ -264,6 +267,16 @@ public class RecommendServiceImpl implements RecommendService {
             }
         }
         
+        // 设置标签信息
+        response.setTagId(content.getTagId());
+        if (content.getTagId() != null) {
+            // 从标签服务获取标签名称
+            Tag tag = tagService.getById(content.getTagId());
+            if (tag != null) {
+                response.setTagName(tag.getName());
+            }
+        }
+        
         response.setViewCount(content.getViewCount());
         response.setLikeCount(content.getLikeCount());
         response.setCollectCount(content.getCollectCount());
@@ -327,5 +340,100 @@ public class RecommendServiceImpl implements RecommendService {
                 }
             }
         }
+    }
+    
+    @Override
+    public List<RecommendResponse> getWeeklyHotArticles() {
+        // 首先尝试获取近一周的热门文章
+        LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
+        List<RecommendResponse> weeklyHotArticles = getHotArticlesByTimeRange(oneWeekAgo, LocalDateTime.now());
+        
+        // 如果近一周的文章不足2篇，则扩展到近两周
+        if (weeklyHotArticles.size() < 2) {
+            LocalDateTime twoWeeksAgo = LocalDateTime.now().minusWeeks(2);
+            weeklyHotArticles = getHotArticlesByTimeRange(twoWeeksAgo, LocalDateTime.now());
+        }
+        
+        // 如果近两周的文章仍不足2篇，则继续扩展到近一个月
+        if (weeklyHotArticles.size() < 2) {
+            LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+            weeklyHotArticles = getHotArticlesByTimeRange(oneMonthAgo, LocalDateTime.now());
+        }
+        
+        // 如果近一个月的文章仍不足2篇，则获取所有时间范围内的热门文章
+        if (weeklyHotArticles.size() < 2) {
+            weeklyHotArticles = getAllTimeHotArticles();
+        }
+        
+        // 只返回最多2篇文章
+        return weeklyHotArticles.stream()
+                .limit(2)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * 根据时间范围获取热门文章
+     */
+    private List<RecommendResponse> getHotArticlesByTimeRange(LocalDateTime startTime, LocalDateTime endTime) {
+        LambdaQueryWrapper<Content> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Content::getType, (byte) 1)  // 只查询文章
+                .eq(Content::getStatus, 1)  // 只查询启用状态的内容
+                .ge(Content::getCreateTime, startTime)
+                .le(Content::getCreateTime, endTime);
+        
+        // 查询内容
+        List<Content> contents = contentService.list(queryWrapper);
+        
+        // 按热度分数排序（阅读量+点赞数*2+收藏数*3）
+        contents = contents.stream()
+                .sorted((c1, c2) -> {
+                    double score1 = calculateHotScore(c1);
+                    double score2 = calculateHotScore(c2);
+                    return Double.compare(score2, score1); // 降序排序
+                })
+                .limit(10) // 先限制数量，避免处理过多数据
+                .toList();
+        
+        // 转换为RecommendResponse对象
+        return contents.stream()
+                .map(content -> {
+                    RecommendResponse response = convertToResponse(content);
+                    response.setScore(calculateHotScore(content));
+                    response.setReason("热门文章");
+                    return response;
+                })
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * 获取所有时间范围内的热门文章
+     */
+    private List<RecommendResponse> getAllTimeHotArticles() {
+        LambdaQueryWrapper<Content> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Content::getType, (byte) 1)  // 只查询文章
+                .eq(Content::getStatus, 1);  // 只查询启用状态的内容
+        
+        // 查询内容
+        List<Content> contents = contentService.list(queryWrapper);
+        
+        // 按热度分数排序
+        contents = contents.stream()
+                .sorted((c1, c2) -> {
+                    double score1 = calculateHotScore(c1);
+                    double score2 = calculateHotScore(c2);
+                    return Double.compare(score2, score1); // 降序排序
+                })
+                .limit(10) // 先限制数量
+                .toList();
+        
+        // 转换为RecommendResponse对象
+        return contents.stream()
+                .map(content -> {
+                    RecommendResponse response = convertToResponse(content);
+                    response.setScore(calculateHotScore(content));
+                    response.setReason("热门文章");
+                    return response;
+                })
+                .collect(Collectors.toList());
     }
 }

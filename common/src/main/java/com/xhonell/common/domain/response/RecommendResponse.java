@@ -109,6 +109,16 @@ public class RecommendResponse {
     private Integer collectCount;
 
     /**
+     * 标签ID
+     */
+    private Long tagId;
+
+    /**
+     * 标签名称
+     */
+    private String tagName;
+
+    /**
      * 推荐得分（用于排序）
      */
     private Double score;

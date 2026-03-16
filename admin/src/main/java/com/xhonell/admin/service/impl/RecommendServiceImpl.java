@@ -65,7 +65,7 @@ public class RecommendServiceImpl implements RecommendService {
         }
 
         // 确定推荐数量
-        Integer count = request.getCount() != null ? request.getCount() : config.getRecommendCount();
+        Integer count = config.getRecommendCount();
         if (count == null || count <= 0) {
             count = 10;
         }
@@ -174,11 +174,6 @@ public class RecommendServiceImpl implements RecommendService {
             queryWrapper.eq(Content::getType, request.getType());
         }
 
-        // 根据分类ID过滤
-        if (request.getCategoryId() != null) {
-            queryWrapper.eq(Content::getCategoryId, request.getCategoryId());
-        }
-
         return queryWrapper;
     }
 
@@ -236,7 +231,7 @@ public class RecommendServiceImpl implements RecommendService {
         for (List<RecommendResponse> categoryItems : groupedByCategory.values()) {
             diversified.addAll(categoryItems.stream()
                     .limit(maxPerCategory)
-                    .collect(Collectors.toList()));
+                    .toList());
         }
 
         // 按得分重新排序
