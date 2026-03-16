@@ -54,22 +54,22 @@ public class RecommendResponse {
     private String description;
 
     /**
-     * 文件ID（视频）
+     * 封面ID
      */
     private Long fileId;
 
     /**
-     * 文件URL
+     * 封面URL
      */
     private String fileUrl;
 
     /**
-     * 封面图ID（视频）
+     * 视频ID
      */
     private Long coverId;
 
     /**
-     * 封面图URL
+     * 视频URL
      */
     private String coverUrl;
 
