@@ -22,6 +22,7 @@ import com.xhonell.server.mapper.ContentMapper;
 import com.xhonell.server.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -39,7 +40,6 @@ import java.util.stream.Collectors;
  * Version 1.0
  **/
 @Service
-@RequiredArgsConstructor
 public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> implements ContentService {
 
     private final ContentCategoryService contentCategoryService;
@@ -49,6 +49,22 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
     private final TagService tagService;
     private final ArticleService articleService;
     private final VideoService videoService;
+
+    public ContentServiceImpl(ContentCategoryService contentCategoryService,
+                             DifficultyService difficultyService,
+                             FileService fileService,
+                             PoliticService politicService,
+                             TagService tagService,
+                             ArticleService articleService,
+                             @Lazy VideoService videoService) {
+        this.contentCategoryService = contentCategoryService;
+        this.difficultyService = difficultyService;
+        this.fileService = fileService;
+        this.politicService = politicService;
+        this.tagService = tagService;
+        this.articleService = articleService;
+        this.videoService = videoService;
+    }
 
     @Override
     public PageInfo<ContentResponse> selectList(Integer page, Integer pageSize) {

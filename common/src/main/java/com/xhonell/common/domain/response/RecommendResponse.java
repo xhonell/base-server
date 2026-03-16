@@ -119,6 +119,21 @@ public class RecommendResponse {
     private String tagName;
 
     /**
+     * 难度ID
+     */
+    private Long difficultyId;
+
+    /**
+     * 难度名称
+     */
+    private String difficultyName;
+
+    /**
+     * 难度对应积分
+     */
+    private Integer difficultyScore;
+
+    /**
      * 推荐得分（用于排序）
      */
     private Double score;

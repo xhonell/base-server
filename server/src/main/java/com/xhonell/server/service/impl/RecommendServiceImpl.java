@@ -43,6 +43,7 @@ public class RecommendServiceImpl implements RecommendService {
     private final ContentCategoryService contentCategoryService;
     private final FileService fileService;
     private final TagService tagService;
+    private final com.xhonell.server.service.DifficultyService difficultyService;
 
     @Override
     public List<RecommendResponse> recommend(RecommendRequest request) {
@@ -274,6 +275,18 @@ public class RecommendServiceImpl implements RecommendService {
             Tag tag = tagService.getById(content.getTagId());
             if (tag != null) {
                 response.setTagName(tag.getName());
+            }
+        }
+
+        // 设置难度信息
+        response.setDifficultyId(content.getDifficultyId());
+        if (content.getDifficultyId() != null) {
+            // 从难度服务获取难度名称和积分
+            com.xhonell.common.domain.entity.Difficulty difficulty = 
+                difficultyService.getById(content.getDifficultyId());
+            if (difficulty != null) {
+                response.setDifficultyName(difficulty.getName());
+                response.setDifficultyScore(difficulty.getScore());
             }
         }
         
