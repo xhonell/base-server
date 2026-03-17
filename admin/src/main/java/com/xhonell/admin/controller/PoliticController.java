@@ -2,6 +2,7 @@ package com.xhonell.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xhonell.admin.service.PoliticService;
+import com.xhonell.common.annotation.RequirePermission;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.entity.Politic;
 import com.xhonell.common.domain.request.PoliticPageRequest;
@@ -27,6 +28,7 @@ public class PoliticController {
     private final PoliticService politicService;
 
     @GetMapping("/list")
+    @RequirePermission("admin:politic:list")
     public Result<PageInfo<Politic>> list(PoliticPageRequest request) {
         return Result.success( politicService.selectList(request));
     }
@@ -37,24 +39,28 @@ public class PoliticController {
     }
 
     @PostMapping("/save")
+    @RequirePermission("admin:politic:save")
     public Result<String> save(@RequestBody Politic politic) {
         politicService.saveBy(politic);
         return Result.success();
     }
 
     @PostMapping("/update")
+    @RequirePermission("admin:politic:update")
     public Result<String> update(@RequestBody Politic politic) {
         politicService.updateBy(politic);
         return Result.success();
     }
 
     @PostMapping("/status/{id}")
+    @RequirePermission("admin:politic:status")
     public Result<String> status(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
         politicService.updateStatus(id, request.getStatus());
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
+    @RequirePermission("admin:politic:delete")
     public Result<String> delete(@PathVariable Long id) {
         politicService.removeById(id);
         return Result.success();

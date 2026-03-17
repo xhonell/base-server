@@ -55,7 +55,7 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
                              FileService fileService,
                              PoliticService politicService,
                              TagService tagService,
-                             ArticleService articleService,
+                             @Lazy ArticleService articleService,
                              @Lazy VideoService videoService) {
         this.contentCategoryService = contentCategoryService;
         this.difficultyService = difficultyService;

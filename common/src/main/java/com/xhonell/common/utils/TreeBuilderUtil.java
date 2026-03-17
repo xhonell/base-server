@@ -41,8 +41,8 @@ public class TreeBuilderUtil {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toMap(idGetter, Function.identity(), (a, b) -> a));
 
-        // 初始化所有节点的 children 容器（空列表）
-        items.forEach(item -> childrenSetter.accept(item, new ArrayList<>()));
+        // 使用 Map 存储 children 列表，避免反射和字段名依赖
+        Map<ID, List<T>> childrenMap = new HashMap<>();
 
         List<T> roots = new ArrayList<>(items.size());
 
@@ -63,8 +63,8 @@ public class TreeBuilderUtil {
                     roots.add(item);
                     attached.add(id);
                 } else {
-                    // 将 item 添加到 parent 的 children 中
-                    List<T> children = getChildren(parent, childrenSetter);
+                    // 将 item 添加到 parent 的 children 列表
+                    List<T> children = childrenMap.computeIfAbsent(parentId, k -> new ArrayList<>());
                     children.add(item);
                     attached.add(id);
                 }
@@ -79,6 +79,22 @@ public class TreeBuilderUtil {
             }
         }
 
+        // 将 childrenMap 中的 children 设置回对应的节点
+        childrenMap.forEach((parentId, children) -> {
+            T parent = idNodeMap.get(parentId);
+            if (parent != null) {
+                childrenSetter.accept(parent, children);
+            }
+        });
+
+        // 为没有子节点的根节点设置空列表
+        roots.forEach(root -> {
+            ID rootId = idGetter.apply(root);
+            if (!childrenMap.containsKey(rootId)) {
+                childrenSetter.accept(root, new ArrayList<>());
+            }
+        });
+
         return roots;
     }
 
@@ -88,24 +104,23 @@ public class TreeBuilderUtil {
      */
     @SuppressWarnings("unchecked")
     private static <T> List<T> getChildren(T node, BiConsumer<T, List<T>> childrenSetter) {
-        // 通过临时 list 设置后再读取（反射会更通用，但为简单起见要求 childrenSetter 先前已设置空 List）
-        // 这里的实现假定 childrenSetter.accept(node, list) 在 buildTree 开始时已被调用一次初始化。
-        // 所以直接尝试反射读取名为 "children" 的字段会更稳，但为了泛用性我们采用如下技巧：
-        try {
-            // 反射尝试读取 children 字段（常见命名为 children）
-            java.lang.reflect.Field f = node.getClass().getDeclaredField("children");
-            f.setAccessible(true);
-            Object val = f.get(node);
-            if (val instanceof List) {
-                return (List<T>) val;
+        // 尝试反射读取可能的 children 字段名
+        String[] possibleFieldNames = {"children", "childrenPermission", "childList", "childrenList"};
+
+        for (String fieldName : possibleFieldNames) {
+            try {
+                java.lang.reflect.Field f = node.getClass().getDeclaredField(fieldName);
+                f.setAccessible(true);
+                Object val = f.get(node);
+                if (val instanceof List) {
+                    return (List<T>) val;
+                }
+            } catch (NoSuchFieldException | IllegalAccessException ignored) {
             }
-        } catch (NoSuchFieldException | IllegalAccessException ignored) {
         }
 
-        // 如果未能通过 reflection 读取 children 字段（可能字段名不同），则尝试以下：
-        // 创建一个临时 list，调用 childrenSetter 将其关联到 node，然后再返回这个 list。
-        List<T> tmp = new ArrayList<>();
-        childrenSetter.accept(node, tmp);
-        return tmp;
+        // 如果反射都失败了，返回一个新列表（但这可能会导致数据丢失，应该尽量避免）
+        // 注意：这种情况不应该发生，因为 buildTree 开始时已经初始化了所有节点的 children
+        return new ArrayList<>();
     }
 }

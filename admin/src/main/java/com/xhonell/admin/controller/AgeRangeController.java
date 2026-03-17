@@ -3,6 +3,7 @@ package com.xhonell.admin.controller;
 import com.github.pagehelper.PageInfo;
 import com.xhonell.admin.service.AgeRangeService;
 import com.xhonell.admin.service.PoliticService;
+import com.xhonell.common.annotation.RequirePermission;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.entity.AgeRange;
 import com.xhonell.common.domain.entity.Politic;
@@ -31,6 +32,7 @@ public class AgeRangeController {
     private final AgeRangeService ageRangeService;
 
     @GetMapping("/list")
+    @RequirePermission("admin:age-range:list")
     public Result<PageInfo<AgeRange>> list(AgeRangePageRequest request) {
         return Result.success( ageRangeService.selectList(request));
     }
@@ -41,18 +43,21 @@ public class AgeRangeController {
     }
 
     @PostMapping("/save")
+    @RequirePermission("admin:age-range:save")
     public Result<String> save(@RequestBody AgeRange ageRange) {
         ageRangeService.saveBy(ageRange);
         return Result.success();
     }
 
     @PostMapping("/update")
+    @RequirePermission("admin:age-range:update")
     public Result<String> update(@RequestBody AgeRange ageRange) {
         ageRangeService.updateBy(ageRange);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
+    @RequirePermission("admin:age-range:delete")
     public Result<String> delete(@PathVariable Long id) {
         ageRangeService.removeById(id);
         return Result.success();

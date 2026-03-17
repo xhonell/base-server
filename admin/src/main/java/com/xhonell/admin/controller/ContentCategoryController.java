@@ -1,6 +1,7 @@
 package com.xhonell.admin.controller;
 
 import com.xhonell.admin.service.ContentCategoryService;
+import com.xhonell.common.annotation.RequirePermission;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.entity.ContentCategory;
 import com.xhonell.common.domain.request.ContentCategoryPageRequest;
@@ -28,11 +29,13 @@ public class ContentCategoryController {
     private final ContentCategoryService contentCategoryService;
 
     @GetMapping("/list")
+    @RequirePermission("admin:content-category:list")
     public Result<List<ContentCategoryResponse>> list(ContentCategoryPageRequest request) {
         return Result.success(contentCategoryService.selectList(request));
     }
 
     @GetMapping("/parent-list")
+    @RequirePermission("admin:content-category:parent-list")
     public Result<List<ContentCategoryResponse>> getParentCategoryList() {
         return Result.success(contentCategoryService.getParentCategoryList());
     }
@@ -43,24 +46,28 @@ public class ContentCategoryController {
     }
 
     @PostMapping("/save")
+    @RequirePermission("admin:content-category:save")
     public Result<String> save(@RequestBody ContentCategory contentCategory) {
         contentCategoryService.saveBy(contentCategory);
         return Result.success();
     }
 
     @PostMapping("/update")
+    @RequirePermission("admin:content-category:update")
     public Result<String> update(@RequestBody ContentCategory contentCategory) {
         contentCategoryService.updateBy(contentCategory);
         return Result.success();
     }
 
     @PostMapping("/status/{id}")
+    @RequirePermission("admin:content-category:status")
     public Result<String> status(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
         contentCategoryService.updateStatus(id, request.getStatus());
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
+    @RequirePermission("admin:content-category:delete")
     public Result<String> delete(@PathVariable Long id) {
         contentCategoryService.removeById(id);
         return Result.success();

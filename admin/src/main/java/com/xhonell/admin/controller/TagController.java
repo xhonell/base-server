@@ -2,6 +2,7 @@ package com.xhonell.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xhonell.admin.service.TagService;
+import com.xhonell.common.annotation.RequirePermission;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.request.TagPageRequest;
 import com.xhonell.common.domain.request.TagSaveRequest;
@@ -29,6 +30,7 @@ public class TagController {
     private final TagService tagService;
 
     @GetMapping("/list")
+    @RequirePermission("admin:tag:list")
     public Result<PageInfo<TagResponse>> list(TagPageRequest request) {
         return Result.success(tagService.selectListByRequest(request));
     }
@@ -39,24 +41,28 @@ public class TagController {
     }
 
     @PostMapping("/save")
+    @RequirePermission("admin:tag:save")
     public Result<String> save(@RequestBody TagSaveRequest request) {
         tagService.saveBy(request);
         return Result.success();
     }
 
     @PostMapping("/update")
+    @RequirePermission("admin:tag:update")
     public Result<String> update(@RequestBody TagSaveRequest request) {
         tagService.updateBy(request);
         return Result.success();
     }
 
     @PostMapping("/status/{id}")
+    @RequirePermission("admin:tag:status")
     public Result<String> status(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
         tagService.updateStatus(id, request.getStatus());
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
+    @RequirePermission("admin:tag:delete")
     public Result<String> delete(@PathVariable Long id) {
         tagService.removeById(id);
         return Result.success();

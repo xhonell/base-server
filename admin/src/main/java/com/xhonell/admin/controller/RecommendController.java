@@ -1,6 +1,7 @@
 package com.xhonell.admin.controller;
 
 import com.xhonell.admin.service.RecommendService;
+import com.xhonell.common.annotation.RequirePermission;
 import com.xhonell.common.domain.dto.Result;
 import com.xhonell.common.domain.request.RecommendRequest;
 import com.xhonell.common.domain.response.RecommendResponse;
@@ -31,6 +32,7 @@ public class RecommendController {
      * @return 推荐内容列表
      */
     @PostMapping("/list")
+    @RequirePermission("admin:recommend:list")
     public Result<List<RecommendResponse>> recommend(@RequestBody RecommendRequest request) {
         List<RecommendResponse> recommendations = recommendService.recommend(request);
         return Result.success(recommendations);
@@ -43,6 +45,7 @@ public class RecommendController {
      * @return 推荐文章列表
      */
     @PostMapping("/articles")
+    @RequirePermission("admin:recommend:articles")
     public Result<List<RecommendResponse>> recommendArticles(@RequestBody RecommendRequest request) {
         request.setType((byte) 1);
         List<RecommendResponse> recommendations = recommendService.recommend(request);
@@ -56,6 +59,7 @@ public class RecommendController {
      * @return 推荐视频列表
      */
     @PostMapping("/videos")
+    @RequirePermission("admin:recommend:videos")
     public Result<List<RecommendResponse>> recommendVideos(@RequestBody RecommendRequest request) {
         request.setType((byte) 2);
         List<RecommendResponse> recommendations = recommendService.recommend(request);

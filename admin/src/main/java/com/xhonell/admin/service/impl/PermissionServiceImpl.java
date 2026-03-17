@@ -119,6 +119,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         if (CollectionUtils.isEmpty(permissions)) {
             LambdaQueryWrapper<Permission> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Permission::getStatus, status);
+            queryWrapper.orderByDesc(Permission::getParentId);
             queryWrapper.orderByDesc(Permission::getSort);
             permissions = baseMapper.selectList(queryWrapper);
             redisUtil.set(redisKey, permissions, RedisPrefixProperties.EXPIRE_TIME_DAY);
