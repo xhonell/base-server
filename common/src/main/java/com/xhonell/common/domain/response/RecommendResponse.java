@@ -109,6 +109,16 @@ public class RecommendResponse {
     private Integer collectCount;
 
     /**
+     * 是否已点赞
+     */
+    private Boolean isLiked;
+
+    /**
+     * 是否已收藏
+     */
+    private Boolean isCollected;
+
+    /**
      * 标签ID
      */
     private Long tagId;

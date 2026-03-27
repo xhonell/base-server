@@ -39,6 +39,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private final FileService fileService;
     private final TagService tagService;
     private final com.xhonell.server.service.DifficultyService difficultyService;
+    private final com.xhonell.server.service.LikeService likeService;
+    private final com.xhonell.server.service.CollectService collectService;
+    private final com.xhonell.server.mapper.ViewRecordMapper viewRecordMapper;
 
     @Override
     public ArticlePageResponse pageArticle(ArticlePageRequest request) {
@@ -102,7 +105,49 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (content == null || content.getType() != 1 || content.getStatus() != 1) {
             return null; // 或者抛出异常
         }
-        return convertToRecommendResponse(content);
+
+        // 增加观看数
+        LambdaUpdateWrapper<Content> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Content::getId, id);
+        updateWrapper.set(Content::getViewCount, content.getViewCount() == null ? 1 : content.getViewCount() + 1);
+        contentService.update(updateWrapper);
+
+        // 添加观看记录
+        try {
+            Long userId = com.xhonell.common.utils.RedisUserUtil.getUserId();
+            com.xhonell.common.domain.entity.ViewRecord viewRecord = new com.xhonell.common.domain.entity.ViewRecord();
+            viewRecord.setUserId(userId);
+            viewRecord.setContentId(id);
+            viewRecord.setType((byte) 1); // 文章类型
+            viewRecord.setCreateTime(java.time.LocalDateTime.now());
+            viewRecordMapper.insert(viewRecord);
+        } catch (Exception e) {
+            // 用户未登录时忽略观看记录
+        }
+
+        RecommendResponse response = convertToRecommendResponse(content);
+
+        // 检查是否已点赞
+        try {
+            Long userId = com.xhonell.common.utils.RedisUserUtil.getUserId();
+            Boolean isLiked = likeService.isLiked(id, userId);
+            response.setIsLiked(isLiked);
+        } catch (Exception e) {
+            // 如果用户未登录，设置为未点赞
+            response.setIsLiked(false);
+        }
+
+        // 检查是否已收藏
+        try {
+            Long userId = com.xhonell.common.utils.RedisUserUtil.getUserId();
+            Boolean isCollected = collectService.isCollected(id, userId);
+            response.setIsCollected(isCollected);
+        } catch (Exception e) {
+            // 如果用户未登录，设置为未收藏
+            response.setIsCollected(false);
+        }
+
+        return response;
     }
 
     @Override

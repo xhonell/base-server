@@ -113,6 +113,16 @@ public class ContentResponse {
      */
     private Integer collectCount;
 
+    /**
+     * 是否已点赞
+     */
+    private Boolean isLiked;
+
+    /**
+     * 是否已收藏
+     */
+    private Boolean isCollected;
+
     // ========== 视频相关字段（仅当type=2时有值） ==========
 
     /**

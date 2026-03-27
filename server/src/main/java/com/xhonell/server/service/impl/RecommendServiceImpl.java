@@ -392,7 +392,8 @@ public class RecommendServiceImpl implements RecommendService {
         queryWrapper.eq(Content::getType, (byte) 1)  // 只查询文章
                 .eq(Content::getStatus, 1)  // 只查询启用状态的内容
                 .ge(Content::getCreateTime, startTime)
-                .le(Content::getCreateTime, endTime);
+                .le(Content::getCreateTime, endTime)
+                .orderByDesc(Content::getViewCount);
         
         // 查询内容
         List<Content> contents = contentService.list(queryWrapper);

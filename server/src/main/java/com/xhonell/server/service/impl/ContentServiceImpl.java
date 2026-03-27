@@ -49,6 +49,7 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
     private final TagService tagService;
     private final ArticleService articleService;
     private final VideoService videoService;
+    private final LikeService likeService;
 
     public ContentServiceImpl(ContentCategoryService contentCategoryService,
                              DifficultyService difficultyService,
@@ -56,7 +57,8 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
                              PoliticService politicService,
                              TagService tagService,
                              @Lazy ArticleService articleService,
-                             @Lazy VideoService videoService) {
+                             @Lazy VideoService videoService,
+                             @Lazy LikeService likeService) {
         this.contentCategoryService = contentCategoryService;
         this.difficultyService = difficultyService;
         this.fileService = fileService;
@@ -64,6 +66,7 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
         this.tagService = tagService;
         this.articleService = articleService;
         this.videoService = videoService;
+        this.likeService = likeService;
     }
 
     @Override
@@ -433,7 +436,7 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
         if (tagIds == null || tagIds.isEmpty()) {
             return Map.of();
         }
-        
+
         List<Tag> tags = tagService.listByIds(tagIds);
         return tags.stream()
             .collect(Collectors.toMap(Tag::getId, Tag::getName));
