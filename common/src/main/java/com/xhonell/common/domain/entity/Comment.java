@@ -33,6 +33,16 @@ public class Comment {
     private Long contentId;
 
     /**
+     * 父评论ID（用于回复功能）
+     */
+    private Long parentId;
+
+    /**
+     * 回复数
+     */
+    private Integer replyCount;
+
+    /**
      * 评论内容
      */
     private String content;

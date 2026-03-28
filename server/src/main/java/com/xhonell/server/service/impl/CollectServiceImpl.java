@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhonell.common.domain.entity.CollectRecord;
 import com.xhonell.common.domain.entity.Content;
 import com.xhonell.common.domain.request.CollectRequest;
+import com.xhonell.common.exception.BizException;
 import com.xhonell.common.utils.RedisUserUtil;
 import com.xhonell.server.mapper.ContentMapper;
 import com.xhonell.server.mapper.CollectRecordMapper;
@@ -45,13 +46,13 @@ public class CollectServiceImpl extends ServiceImpl<CollectRecordMapper, Collect
         // 查询内容
         Content content = contentMapper.selectById(contentId);
         if (content == null) {
-            throw new RuntimeException("内容不存在");
+            throw new BizException("内容不存在");
         }
 
         if (operation == 1) {
             // 收藏操作
             if (existRecord != null && existRecord.getStatus() == 1) {
-                throw new RuntimeException("已经收藏过了");
+                throw new BizException("已经收藏过了");
             }
 
             // 增加收藏数
@@ -75,7 +76,7 @@ public class CollectServiceImpl extends ServiceImpl<CollectRecordMapper, Collect
         } else if (operation == 0) {
             // 取消收藏操作
             if (existRecord == null || existRecord.getStatus() == 0) {
-                throw new RuntimeException("未收藏过");
+                throw new BizException("未收藏过");
             }
 
             // 减少收藏数
@@ -87,7 +88,7 @@ public class CollectServiceImpl extends ServiceImpl<CollectRecordMapper, Collect
             existRecord.setUpdateTime(LocalDateTime.now());
             baseMapper.updateById(existRecord);
         } else {
-            throw new RuntimeException("无效的操作类型");
+            throw new BizException("无效的操作类型");
         }
     }
 

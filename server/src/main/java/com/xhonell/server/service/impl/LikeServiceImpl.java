@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xhonell.common.domain.entity.Content;
 import com.xhonell.common.domain.entity.LikeRecord;
 import com.xhonell.common.domain.request.LikeRequest;
+import com.xhonell.common.exception.BizException;
 import com.xhonell.common.utils.RedisUserUtil;
 import com.xhonell.server.mapper.ContentMapper;
 import com.xhonell.server.mapper.LikeRecordMapper;
@@ -45,13 +46,13 @@ public class LikeServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> i
         // 查询内容
         Content content = contentMapper.selectById(contentId);
         if (content == null) {
-            throw new RuntimeException("内容不存在");
+            throw new BizException("内容不存在");
         }
 
         if (operation == 1) {
             // 点赞操作
             if (existRecord != null && existRecord.getStatus() == 1) {
-                throw new RuntimeException("已经点赞过了");
+                throw new BizException("已经点赞过了");
             }
 
             // 增加点赞数
@@ -75,7 +76,7 @@ public class LikeServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> i
         } else if (operation == 0) {
             // 取消点赞操作
             if (existRecord == null || existRecord.getStatus() == 0) {
-                throw new RuntimeException("未点赞过");
+                throw new BizException("未点赞过");
             }
 
             // 减少点赞数
@@ -87,7 +88,7 @@ public class LikeServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> i
             existRecord.setUpdateTime(LocalDateTime.now());
             baseMapper.updateById(existRecord);
         } else {
-            throw new RuntimeException("无效的操作类型");
+            throw new BizException("无效的操作类型");
         }
     }
 

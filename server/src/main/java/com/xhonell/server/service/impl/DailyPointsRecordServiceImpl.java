@@ -27,6 +27,7 @@ public class DailyPointsRecordServiceImpl extends ServiceImpl<DailyPointsRecordM
     // 积分限制配置
     private static final int COMMENT_MAX_POINTS = 5;  // 评论每日最多5积分
     private static final int LIKE_MAX_POINTS = 5;     // 点赞每日最多5积分
+    private static final int SiGN_MAX_POINTS = -1;     // 点赞每日最多5积分
     private static final int COLLECT_MAX_POINTS = 5;  // 收藏每日最多5积分
     private static final int ARTICLE_MAX_POINTS = -1; // 文章学习不限制
     private static final int VIDEO_MAX_POINTS = -1;    // 视频学习不限制
@@ -116,6 +117,7 @@ public class DailyPointsRecordServiceImpl extends ServiceImpl<DailyPointsRecordM
             case 3 -> COMMENT_MAX_POINTS;   // 评论每日最多5积分
             case 4 -> LIKE_MAX_POINTS;      // 点赞每日最多5积分
             case 5 -> COLLECT_MAX_POINTS;   // 收藏每日最多5积分
+            case 6 -> SiGN_MAX_POINTS;   // 签到不限制
             default -> 0;
         };
     }

@@ -31,4 +31,9 @@ public class RecommendRequest implements Serializable {
      * 内容类型（1=文章，2=视频，null=全部）
      */
     private Byte type;
+
+    /**
+     * 用户ID（用于个性化推荐）
+     */
+    private Long userId;
 }

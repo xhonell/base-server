@@ -70,6 +70,11 @@ public class LoginServiceImpl implements LoginService {
         user.setSalt(salt);
         user.setPassword(encryptPassword);
         userService.save(user);
+
+        // 保存用户基本信息（包括出生日期）
+        UserInfo userInfo = new UserInfo().setUserId(user.getId());
+        userInfo.setBirthday(request.getBirthday());
+        userInfoService.save(userInfo);
     }
 
     public String login(LoginRequest request) {
@@ -93,14 +98,14 @@ public class LoginServiceImpl implements LoginService {
     /**
      * 保存用户信息最后登录的信息
      */
-    public void saveUserInfoLastLogin(String ip, String city, Long userId){
+    public void saveUserInfoLastLogin(String ip, String city, Long userId) {
         UserInfo userInfo = userInfoService.getByUserId(userId);
         if (Objects.isNull(userInfo)) {
             log.info("用户第一次登录，初始化用户信息：{}", userId);
             userInfo = new UserInfo().setUserId(userId);
         }
 
-        log.info("用户登录, id:{}, ip: {}, city: {}", userId, ip , city);
+        log.info("用户登录, id:{}, ip: {}, city: {}", userId, ip, city);
         userInfo.setLastLoginIp(ip)
                 .setLastLogiCity(city);
         userInfoService.saveOrUpdate(userInfo);

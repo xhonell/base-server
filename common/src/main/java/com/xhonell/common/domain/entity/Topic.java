@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 
 /**
  * program: BaseServer
- * ClassName UserInfo
- * description:
+ * ClassName Topic
+ * description: 话题/论贴表
  * author: xhonell
- * create: 2025年10月24日23时06分
+ * create: 2026/3/28
  * Version 1.0
  **/
 @Data
@@ -26,8 +26,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TableName("pe_user_info")
-public class UserInfo implements Serializable {
+@TableName("pe_topic")
+public class Topic implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -39,44 +39,39 @@ public class UserInfo implements Serializable {
     private Long id;
 
     /**
-     * 用户编号（外键，关联用户登录表）
+     * 用户ID
      */
     private Long userId;
 
     /**
-     * 政治面貌（1 群众 2 团员 3 预备党员 4 党员 5 其他）
+     * 标题
      */
-    private Integer politics;
+    private String title;
 
     /**
-     * 积分
+     * 内容
      */
-    private Long integral;
+    private String content;
 
     /**
-     * 性别（0 未知 1 男 2 女）
+     * 分类（1谈论 2问答 3分享 4活动）
      */
-    private Integer gender;
+    private Integer category;
 
     /**
-     * 出生日期
+     * 查看数
      */
-    private java.time.LocalDate birthday;
+    private Integer viewCount;
 
     /**
-     * 最后登录城市
+     * 回复数
      */
-    private String lastLogiCity;
+    private Integer replyCount;
 
     /**
-     * 最后登录 IP
+     * 状态（1正常 0删除）
      */
-    private String lastLoginIp;
-
-    /**
-     * 个性签名
-     */
-    private String signature;
+    private Integer status;
 
     /**
      * 创建时间
@@ -84,7 +79,7 @@ public class UserInfo implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     private LocalDateTime updateTime;
 }

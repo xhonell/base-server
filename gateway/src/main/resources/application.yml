@@ -21,7 +21,7 @@ spring:
       discovery:
         server-addr: 124.223.100.39:8848
         username: "nacos"
-        password: "hH1234568."
+        password: "12345678"
 
       #配置中心
       config:
@@ -31,4 +31,4 @@ spring:
         refresh-enabled: true
         namespace: ""
         username: "nacos"
-        password: "hH1234568."
+        password: "12345678"

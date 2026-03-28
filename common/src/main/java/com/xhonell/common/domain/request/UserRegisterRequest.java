@@ -1,8 +1,10 @@
 package com.xhonell.common.domain.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -53,6 +55,13 @@ public class UserRegisterRequest implements Serializable {
 
     @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号格式不正确")
     private String phone;
+
+    /**
+     * 出生日期
+     */
+    @NotNull(message = "出生日期不能为空")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private java.time.LocalDate birthday;
 
     // ⚙️ 自定义方法（非注解）: 检查密码和确认密码是否一致
     public boolean isPasswordConfirmed() {
