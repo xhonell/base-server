@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.xhonell.common.domain.dto.RedisUser;
 import com.xhonell.common.domain.entity.User;
+import com.xhonell.common.domain.request.AdminCreateRequest;
 import com.xhonell.common.domain.request.UserPageRequest;
 import jakarta.validation.constraints.Email;
 
@@ -19,4 +20,11 @@ public interface UserService extends IService<User> {
     User getByEmail(@Email(message = "邮箱格式不正确") String email, Integer role);
 
     PageInfo<RedisUser> selectList(UserPageRequest request);
+
+    /**
+     * 新增管理员
+     *
+     * @param request 新增管理员请求
+     */
+    void createAdmin(AdminCreateRequest request);
 }

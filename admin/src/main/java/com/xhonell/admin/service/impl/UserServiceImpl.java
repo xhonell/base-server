@@ -10,6 +10,7 @@ import com.xhonell.admin.service.UserService;
 import com.xhonell.common.domain.dto.RedisUser;
 import com.xhonell.common.domain.entity.File;
 import com.xhonell.common.domain.entity.User;
+import com.xhonell.common.domain.request.AdminCreateRequest;
 import com.xhonell.common.domain.request.UserPageRequest;
 import com.xhonell.common.enums.user.RoleEnum;
 import com.xhonell.common.utils.AssertUtil;
@@ -95,5 +96,46 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.ne(User::getId, redisUser.getId());
         queryWrapper.orderByDesc(User::getId);
         return this.list(queryWrapper);
+    }
+
+    @Override
+    public void createAdmin(AdminCreateRequest request) {
+        // 验证密码
+        AssertUtil.isTrue(request.isPasswordConfirmed(), "密码不一致");
+
+        // 验证邮箱是否已存在
+        User existUser = getByEmail(request.getEmail(), request.getRole());
+        AssertUtil.isTrue(Objects.isNull(existUser), "该邮箱已存在");
+
+        // 获取当前登录用户
+        RedisUser currentUser = RedisUserUtil.get();
+        AssertUtil.isTrue(Objects.nonNull(currentUser), "用户未登录");
+
+        // 权限验证：只有超级管理员可以创建系统管理员
+        if (request.getRole().equals(RoleEnum.ADMIN.getCode()) && !currentUser.getSupperAdmin()) {
+            AssertUtil.isTrue(false, "只有超级管理员可以创建系统管理员");
+        }
+
+        // 创建用户
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        user.setRole(request.getRole());
+        user.setStatus(true); // 默认启用
+
+        // 生成密码盐值和加密密码
+        String salt = com.xhonell.common.utils.PasswordUtil.generateSalt();
+        String encryptPassword = com.xhonell.common.utils.PasswordUtil.encrypt(request.getPassword(), salt);
+        user.setSalt(salt);
+        user.setPassword(encryptPassword);
+
+        // 设置头像
+        if (request.getAvatarId() != null) {
+            user.setAvatarId(request.getAvatarId());
+        }
+
+        // 保存用户
+        save(user);
     }
 }

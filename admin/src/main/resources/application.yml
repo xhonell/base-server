@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: ADMIN-SERVICE
+    name: ADMIN-SERVICE-01
   profiles:
     # 环境标识
     active: DEV
