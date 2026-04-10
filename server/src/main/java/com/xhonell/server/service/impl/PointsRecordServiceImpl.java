@@ -37,6 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -120,6 +121,7 @@ public class PointsRecordServiceImpl extends ServiceImpl<PointsRecordMapper, Poi
             case "评论", "comment", "3" -> 3;
             case "点赞", "like", "4" -> 4;
             case "收藏", "collect", "5" -> 5;
+            case "其他", "topic", "6" -> 6;
             default -> 0;
         };
     }
@@ -132,11 +134,12 @@ public class PointsRecordServiceImpl extends ServiceImpl<PointsRecordMapper, Poi
      */
     private Integer getPointsBySourceType(Integer sourceType, Integer points) {
         return switch (sourceType) {
-            case 1 -> points;  // 文章学习10积分
-            case 2 -> points;  // 视频学习20积分
+            case 1 -> points;  // 文章学习
+            case 2 -> points;  // 视频学习
             case 3 -> 1;   // 评论1积分
             case 4 -> 1;   // 点赞1积分
             case 5 -> 1;   // 收藏1积分
+            case 6 -> points;   // 发表帖子1积分
             default -> 0;
         };
     }
@@ -252,6 +255,7 @@ public class PointsRecordServiceImpl extends ServiceImpl<PointsRecordMapper, Poi
             case "3" -> "通过评论" + action + pointsText;
             case "4" -> "通过点赞" + action + pointsText;
             case "5" -> "通过收藏" + action + pointsText;
+            case "6" -> "通过发表帖子" + action + pointsText;
             default -> action + pointsText;
         };
     }
@@ -333,6 +337,12 @@ public class PointsRecordServiceImpl extends ServiceImpl<PointsRecordMapper, Poi
         LambdaQueryWrapper<PointsRecord> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(PointsRecord::getUserId, userId);
         queryWrapper.gt(PointsRecord::getChangePoints, 0);
+
+// 获取今天的开始时间（00:00:00）和结束时间（23:59:59.999999999）
+        LocalDateTime startOfToday = LocalDate.now().atStartOfDay();
+        LocalDateTime endOfToday = startOfToday.plusDays(1).minusNanos(1);
+
+        queryWrapper.between(PointsRecord::getCreateTime, startOfToday, endOfToday);
         List<PointsRecord> records = baseMapper.selectList(queryWrapper);
 
         // 按来源类型统计积分
@@ -357,7 +367,7 @@ public class PointsRecordServiceImpl extends ServiceImpl<PointsRecordMapper, Poi
                 case "2" -> videoPoints += points;
                 case "3" -> commentPoints += points;
                 case "4" -> likePoints += points;
-                case "5" -> collectPoints += points;
+                case "5", "6" -> collectPoints += points;
                 default -> otherPoints += points;
             }
         }
@@ -372,7 +382,7 @@ public class PointsRecordServiceImpl extends ServiceImpl<PointsRecordMapper, Poi
                 .setCommentPoints(commentPoints)
                 .setLikePoints(likePoints)
                 .setCollectPoints(collectPoints)
-                .setOtherPoints(otherPoints)
+                .setOtherPoints(collectPoints)
                 .setTotalPoints(totalPoints);
     }
 
@@ -667,6 +677,7 @@ public class PointsRecordServiceImpl extends ServiceImpl<PointsRecordMapper, Poi
             case "3" -> "评论";
             case "4" -> "点赞";
             case "5" -> "收藏";
+            case "6" -> "发表帖子";
             default -> "其他";
         };
     }

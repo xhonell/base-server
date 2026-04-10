@@ -139,6 +139,8 @@ public class ExamPaperServiceImpl extends ServiceImpl<ExamPaperMapper, ExamPaper
             paper.setDescription(request.getDescription());
             paper.setDuration(request.getDuration());
             paper.setPassScore(request.getPassScore());
+            paper.setTotalScore(totalScore);
+            paper.setQuestionCount(request.getQuestions().size());
             paper.setUpdateTime(LocalDateTime.now());
             this.updateById(paper);
 

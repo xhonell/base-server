@@ -22,7 +22,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContentSaveRequest implements Serializable {
+public class /**/ContentSaveRequest implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

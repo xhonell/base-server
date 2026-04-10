@@ -109,6 +109,7 @@ public class ContentServiceImpl extends ServiceImpl<ContentMapper, Content> impl
         updateWrapper.set(Objects.nonNull(request.getTagId()), Content::getTagId, request.getTagId());
         updateWrapper.set(Objects.nonNull(request.getPoliticId()), Content::getPoliticId, request.getPoliticId());
         updateWrapper.set(Objects.nonNull(request.getStatus()), Content::getStatus, request.getStatus());
+        updateWrapper.set(Objects.nonNull(request.getCategoryId()), Content::getCategoryId, request.getCategoryId());
         update(updateWrapper);
 
         // 根据内容类型更新不同的表

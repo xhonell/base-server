@@ -18,6 +18,7 @@ spring:
     nacos:
       # 注册中心
       discovery:
+        enabled: true
         server-addr: 47.108.221.145:8848
         username: "nacos"
         password: "12345678"
